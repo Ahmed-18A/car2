@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">car2</string>
+    <array name="initial_price_range">
+        <item>10000</item>
+        <item>50000</item>
+    </array>
+    <string name="select_region">Select Region</string>
+    <string name="select_car_type">Select Car Type</string>
+    <string name="select_gear_type">Select Gear Type</string>
+    <string name="select_fuel_type">Select Fuel Type</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_doors">Select Number of Doors</string>
+    <string name="select_seats">Select Number of Seats</string>
+</resources>

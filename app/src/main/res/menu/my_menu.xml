@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Profile"
+        android:id="@+id/mnu_profile"
+        android:orderInCategory="20"
+        />
+    <item
+        android:title="Add"
+        android:id="@+id/mnu_add"
+        android:orderInCategory="30"
+        />
+    <item
+        android:title="Dash"
+        android:id="@+id/mnu_dash"
+        android:orderInCategory="40"
+        />
+    <item
+        android:title="Search"
+        android:id="@+id/mnu_search"
+        android:orderInCategory="50"
+        />
+</menu>

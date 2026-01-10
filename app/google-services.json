@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "736103007784",
+    "project_id": "car2-6bc08",
+    "storage_bucket": "car2-6bc08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736103007784:android:7c2782b4be451113cd971d",
+        "android_client_info": {
+          "package_name": "com.example.car2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPj-UMPinUDLfkKfvCBHvJlZeCYX6rIm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

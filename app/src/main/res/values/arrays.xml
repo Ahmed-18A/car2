@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="regions">
+        <item>Any</item>
+        <item>North</item>
+        <item>Center</item>
+        <item>South</item>
+    </string-array>
+
+    <string-array name="car_types">
+        <item>Any</item>
+        <item>Sedan</item>
+        <item>SUV</item>
+        <item>Hatchback</item>
+    </string-array>
+
+    <string-array name="gear_types">
+        <item>Any</item>
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
+
+    <string-array name="fuel_types">
+        <item>Any</item>
+        <item>Gasoline</item>
+        <item>Diesel</item>
+        <item>Electric</item>
+    </string-array>
+
+    <string-array name="colors">
+        <item>Any</item>
+        <item>White</item>
+        <item>Black</item>
+        <item>Red</item>
+    </string-array>
+
+    <string-array name="doors_count">
+        <item>Any</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="seats_count">
+        <item>Any</item>
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+</resources>
