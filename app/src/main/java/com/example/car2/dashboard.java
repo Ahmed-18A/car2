@@ -138,6 +138,7 @@ public class dashboard extends AppCompatActivity {
 
         shownCarsList.clear();
 
+
         for (Car car : allCarsList) {
 
             if (!region.equals("All") && !car.getRegion().equals(region)) continue;
