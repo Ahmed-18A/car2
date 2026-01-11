@@ -49,7 +49,7 @@ public class addCar extends AppCompatActivity {
 
     private ArrayList<Uri> allImages = new ArrayList<>();
 
-    private Spinner spRegion, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats;
+    private Spinner spLocation, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats;
     private EditText etTestDate, etPrice, etYear, etHorsePower, etEngineCapacity;
     private CheckBox cbSunroof, cbDisabled;
     private Button btnAddImages, btnAddCar;
@@ -73,7 +73,7 @@ public class addCar extends AppCompatActivity {
         progressOverlay = findViewById(R.id.progressOverlay);
 
         // ===== INIT VIEWS =====
-        spRegion = findViewById(R.id.spRegion);
+        spLocation = findViewById(R.id.spLocation);
         spCarType = findViewById(R.id.spCarType);
         spGearType = findViewById(R.id.spGearType);
         spFuelType = findViewById(R.id.spFuelType);
@@ -90,7 +90,7 @@ public class addCar extends AppCompatActivity {
         cbSunroof = findViewById(R.id.cbSunroof);
         cbDisabled = findViewById(R.id.cbDisabled);
 
-        btnAddImages = findViewById(R.id.btnApplyFilter); // زر Add 5 images
+        btnAddImages = findViewById(R.id.btnSearch); // زر Add 5 images
         btnAddCar = findViewById(R.id.btnAddCar); // زر Apply Filter كزر لإضافة السيارة
 
         // ===== SELECT IMAGES =====
@@ -98,14 +98,30 @@ public class addCar extends AppCompatActivity {
 
         // ===== ADD CAR =====
         btnAddCar.setOnClickListener(v -> {
-            if (isUploading) return; // لمنع الضغط المتكرر
+
+            if (allImages.size() < 5) {
+                Toast.makeText(this, "Please select at least 5 images", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (etEngineCapacity.getText().toString().trim().isEmpty() ||
+                    etPrice.getText().toString().trim().isEmpty() ||
+                    etHorsePower.getText().toString().trim().isEmpty() ||
+                    etYear.getText().toString().trim().isEmpty() ||
+                    etTestDate.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             isUploading = true;
             btnAddCar.setEnabled(false);
 
             progressOverlay.setVisibility(View.VISIBLE);
+            bottomNav.setVisibility(View.GONE);
 
             uploadAllImagesAndSaveCar();
         });
+
 
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.mnu_profile) {
@@ -224,6 +240,7 @@ public class addCar extends AppCompatActivity {
                     public void onFailure(Call call, java.io.IOException e) {
                         runOnUiThread(() -> {
                             progressOverlay.setVisibility(View.GONE);
+                            bottomNav.setVisibility(View.VISIBLE);
                             Toast.makeText(addCar.this, "Upload failed", Toast.LENGTH_SHORT).show();
                             btnAddCar.setEnabled(true);
                             isUploading = false;
@@ -240,6 +257,7 @@ public class addCar extends AppCompatActivity {
 
                         } catch (Exception e) {
                             runOnUiThread(() -> {
+                                bottomNav.setVisibility(View.VISIBLE);
                                 progressOverlay.setVisibility(View.GONE);
                                 Toast.makeText(addCar.this, "Upload error", Toast.LENGTH_SHORT).show();
                                 btnAddCar.setEnabled(true);
@@ -264,32 +282,38 @@ public class addCar extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
 
         Map<String, Object> car = new HashMap<>();
-        car.put("region", spRegion.getSelectedItem().toString());
-        car.put("type", spCarType.getSelectedItem().toString());
-        car.put("gearType", spGearType.getSelectedItem().toString());
-        car.put("fuelType", spFuelType.getSelectedItem().toString());
-        car.put("color", spColor.getSelectedItem().toString());
-        car.put("doors", spDoors.getSelectedItem().toString());
-        car.put("seats", spSeats.getSelectedItem().toString());
-        car.put("testDate", etTestDate.getText().toString());
         car.put("price", etPrice.getText().toString());
-        car.put("year", etYear.getText().toString());
-        car.put("horsePower", etHorsePower.getText().toString());
-        car.put("engineCapacity", etEngineCapacity.getText().toString());
-        car.put("sunroof", cbSunroof.isChecked() ? "Yes" : "No");
-        car.put("disabled", cbDisabled.isChecked() ? "Yes" : "No");
+        car.put("type", spCarType.getSelectedItem().toString());
+        ArrayList<String> details = new ArrayList<>();
+        details.add(spLocation.getSelectedItem().toString());
+        details.add(spGearType.getSelectedItem().toString());
+        details.add(spFuelType.getSelectedItem().toString());
+        details.add(spColor.getSelectedItem().toString());
+        details.add(spDoors.getSelectedItem().toString());
+        details.add(spSeats.getSelectedItem().toString());
+        details.add(etTestDate.getText().toString());
+        details.add(etYear.getText().toString());
+        details.add(etHorsePower.getText().toString());
+        details.add(etEngineCapacity.getText().toString());
+        details.add(cbSunroof.isChecked() ? "Yes" : "No");
+        details.add(cbDisabled.isChecked() ? "Yes" : "No");
+
+        car.put("details", details); // 🔑 Array واحدة
+
         car.put("images", imageUrls);
         car.put("ownerId", user.getUid());
 
         db.collection("cars")
                 .add(car)
                 .addOnSuccessListener(docRef -> {
+                    bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show();
                     btnAddCar.setEnabled(true);
                     isUploading = false;
                 })
                 .addOnFailureListener(e -> {
+                    bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Failed to add car", Toast.LENGTH_SHORT).show();
                     btnAddCar.setEnabled(true);

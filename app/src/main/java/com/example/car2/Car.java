@@ -1,99 +1,98 @@
 package com.example.car2;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
-public class Car implements Serializable {
+import java.util.ArrayList;
+
+public class Car {
     private String type;
     private String price;
-    private String[] images = new String[5];
-    private String[] details = new String[12];
-    /*
-    1-> المنطقة
-    2-> نوع الغير
-    3-> نوع الوقود
-    4-> اللون
-    5-> موعد التيست
-    6-> عدد الابواب
-    7-> عدد المقاعد
-    8-> فتحة السقف
-    9-> مخصصة للمقعدين
-    10-> سنة الصعود الى الشارع
-    11-> قوة الاحصنة
-    12-> سعة المحرك
-     */
+    private ArrayList<String> images;
+    private ArrayList<String> details;
 
-    public Car() {}
+    // ===== الخصائص الجديدة =====
+    private String region;
+    private String gearType;
+    private String fuelType;
+    private String color;
+    private int doors;
+    private int seats;
+    private boolean sunroof;
+    private boolean disabledCar;
+    private String testDate;
+    private int year;
+    private int horsePower;
+    private int engineCapacity;
 
-    public Car( String type, String price, String[] details , String[] images) {
+    public Car() { }
+
+    public Car(String type, String price, ArrayList<String> images, ArrayList<String> details,
+               String region, String gearType, String fuelType, String color,
+               int doors, int seats, boolean sunroof, boolean disabledCar,
+               String testDate, int year, int horsePower, int engineCapacity) {
+
         this.type = type;
         this.price = price;
-        this.details= Arrays.copyOf(details,details.length);
-        this.images= Arrays.copyOf(images,images.length);
+        this.images = images;
+        this.details = details;
+        this.region = region;
+        this.gearType = gearType;
+        this.fuelType = fuelType;
+        this.color = color;
+        this.doors = doors;
+        this.seats = seats;
+        this.sunroof = sunroof;
+        this.disabledCar = disabledCar;
+        this.testDate = testDate;
+        this.year = year;
+        this.horsePower = horsePower;
+        this.engineCapacity = engineCapacity;
     }
+
+    // ===== getters & setters =====
     public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
     public String getPrice() { return price; }
-    public String[] getImages() { return images; }
-    public String[] getDetails() { return details; }
+    public void setPrice(String price) { this.price = price; }
 
-    // 1 -> المنطقة
-    public String getRegion() {
-        return details[0];
-    }
+    public ArrayList<String> getImages() { return images; }
+    public void setImages(ArrayList<String> images) { this.images = images; }
 
-    // 2 -> نوع الغير
-    public String getGearType() {
-        return details[1];
-    }
+    public ArrayList<String> getDetails() { return details; }
+    public void setDetails(ArrayList<String> details) { this.details = details; }
 
-    // 3 -> نوع الوقود
-    public String getFuelType() {
-        return details[2];
-    }
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
 
-    // 4 -> اللون
-    public String getColor() {
-        return details[3];
-    }
+    public String getGearType() { return gearType; }
+    public void setGearType(String gearType) { this.gearType = gearType; }
 
-    // 5 -> موعد التيست
-    public String getTestDate() {
-        return details[4];
-    }
+    public String getFuelType() { return fuelType; }
+    public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
-    // 6 -> عدد الابواب
-    public int getDoors() {
-        return Integer.parseInt(details[5]);
-    }
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color; }
 
-    // 7 -> عدد المقاعد
-    public int getSeats() {
-        return Integer.parseInt(details[6]);
-    }
+    public int getDoors() { return doors; }
+    public void setDoors(int doors) { this.doors = doors; }
 
-    // 8 -> فتحة السقف
-    public boolean hasSunroof() {
-        return details[7].equalsIgnoreCase("true");
-    }
+    public int getSeats() { return seats; }
+    public void setSeats(int seats) { this.seats = seats; }
 
-    // 9 -> مخصصة للمعاقين
-    public boolean isDisabledCar() {
-        return details[8].equalsIgnoreCase("true");
-    }
+    public boolean hasSunroof() { return sunroof; }
+    public void setSunroof(boolean sunroof) { this.sunroof = sunroof; }
 
-    // 10 -> سنة الصعود الى الشارع
-    public int getYear() {
-        return Integer.parseInt(details[9]);
-    }
+    public boolean isDisabledCar() { return disabledCar; }
+    public void setDisabledCar(boolean disabledCar) { this.disabledCar = disabledCar; }
 
-    // 11 -> قوة الاحصنة
-    public int getHorsePower() {
-        return Integer.parseInt(details[10]);
-    }
+    public String getTestDate() { return testDate; }
+    public void setTestDate(String testDate) { this.testDate = testDate; }
 
-    // 12 -> سعة المحرك
-    public int getEngineCapacity() {
-        return Integer.parseInt(details[11]);
-    }
+    public int getYear() { return year; }
+    public void setYear(int year) { this.year = year; }
 
+    public int getHorsePower() { return horsePower; }
+    public void setHorsePower(int horsePower) { this.horsePower = horsePower; }
+
+    public int getEngineCapacity() { return engineCapacity; }
+    public void setEngineCapacity(int engineCapacity) { this.engineCapacity = engineCapacity; }
 }

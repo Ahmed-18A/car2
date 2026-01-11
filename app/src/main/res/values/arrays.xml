@@ -1,50 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="regions">
-        <item>Any</item>
         <item>North</item>
         <item>Center</item>
         <item>South</item>
     </string-array>
 
     <string-array name="car_types">
-        <item>Any</item>
-        <item>Sedan</item>
-        <item>SUV</item>
-        <item>Hatchback</item>
+        <item>Toyota</item>
+        <item>Hyundai</item>
+        <item>Kia</item>
+        <item>Mazda</item>
+        <item>Skoda</item>
+        <item>Volkswagen</item>
+        <item>Seat</item>
+        <item>Ford</item>
+        <item>Chevrolet</item>
+        <item>Peugeot</item>
+        <item>Citroen</item>
+        <item>Renault</item>
+        <item>Dacia</item>
+        <item>Nissan</item>
+        <item>Honda</item>
+        <item>Mitsubishi</item>
+        <item>Suzuki</item>
+        <item>Subaru</item>
+        <item>BMW</item>
+        <item>Mercedes-Benz</item>
+        <item>Audi</item>
+        <item>Lexus</item>
+        <item>Volvo</item>
+        <item>Tesla</item>
+        <item>BYD</item>
+        <item>MG</item>
+        <item>Chery</item>
+        <item>Geely</item>
+        <item>XPeng</item>
+        <item>Polestar</item>
+        <item>Fiat</item>
+        <item>Alfa Romeo</item>
+        <item>Jeep</item>
+        <item>Land Rover</item>
+        <item>Mini</item>
+        <item>Porsche</item>
+        <item>Jaguar</item>
+        <item>Opel</item>
+        <item>Isuzu</item>
+        <item>RAM</item>
+        <item>Infiniti</item>
+        <item>Genesis</item>
+        <item>Smart</item>
+        <item>DS Automobiles</item>
     </string-array>
 
     <string-array name="gear_types">
-        <item>Any</item>
         <item>Automatic</item>
         <item>Manual</item>
     </string-array>
 
     <string-array name="fuel_types">
-        <item>Any</item>
         <item>Gasoline</item>
         <item>Diesel</item>
         <item>Electric</item>
     </string-array>
 
     <string-array name="colors">
-        <item>Any</item>
         <item>White</item>
         <item>Black</item>
+        <item>Silver</item>
+        <item>Gray</item>
+        <item>Blue</item>
         <item>Red</item>
+        <item>Brown</item>
+        <item>Green</item>
+        <item>Beige</item>
+        <item>Gold</item>
+        <item>Orange</item>
+        <item>Yellow</item>
     </string-array>
 
     <string-array name="doors_count">
-        <item>Any</item>
         <item>2</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string-array name="seats_count">
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="regions2">
+        <item>Any</item>
+        <item>North</item>
+        <item>Center</item>
+        <item>South</item>
+    </string-array>
+
+    <string-array name="car_types2">
+        <item>Any</item>
+        <item>Toyota</item>
+        <item>Hyundai</item>
+        <item>Kia</item>
+        <item>Mazda</item>
+        <item>Skoda</item>
+        <item>Volkswagen</item>
+        <item>Seat</item>
+        <item>Ford</item>
+        <item>Chevrolet</item>
+        <item>Peugeot</item>
+        <item>Citroen</item>
+        <item>Renault</item>
+        <item>Dacia</item>
+        <item>Nissan</item>
+        <item>Honda</item>
+        <item>Mitsubishi</item>
+        <item>Suzuki</item>
+        <item>Subaru</item>
+        <item>BMW</item>
+        <item>Mercedes-Benz</item>
+        <item>Audi</item>
+        <item>Lexus</item>
+        <item>Volvo</item>
+        <item>Tesla</item>
+        <item>BYD</item>
+        <item>MG</item>
+        <item>Chery</item>
+        <item>Geely</item>
+        <item>XPeng</item>
+        <item>Polestar</item>
+        <item>Fiat</item>
+        <item>Alfa Romeo</item>
+        <item>Jeep</item>
+        <item>Land Rover</item>
+        <item>Mini</item>
+        <item>Porsche</item>
+        <item>Jaguar</item>
+        <item>Opel</item>
+        <item>Isuzu</item>
+        <item>RAM</item>
+        <item>Infiniti</item>
+        <item>Genesis</item>
+        <item>Smart</item>
+        <item>DS Automobiles</item>
+    </string-array>
+
+    <string-array name="gear_types2">
+        <item>Any</item>
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
+
+    <string-array name="fuel_types2">
+        <item>Any</item>
+        <item>Gasoline</item>
+        <item>Diesel</item>
+        <item>Electric</item>
+    </string-array>
+
+    <string-array name="colors2">
+        <item>Any</item>
+        <item>White</item>
+        <item>Black</item>
+        <item>Silver</item>
+        <item>Gray</item>
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Brown</item>
+        <item>Green</item>
+        <item>Beige</item>
+        <item>Gold</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+    </string-array>
+
+    <string-array name="doors_count2">
         <item>Any</item>
         <item>2</item>
         <item>4</item>
         <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="seats_count2">
+        <item>Any</item>
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
     </string-array>
 
 </resources>

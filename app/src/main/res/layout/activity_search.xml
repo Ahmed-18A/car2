@@ -6,163 +6,196 @@
     android:layout_height="match_parent"
     >
 
-    <LinearLayout
+    <ScrollView
+        android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <!-- Region -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spRegion"
+        <LinearLayout
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/regions"
-            android:prompt="@string/select_region" />
+            android:orientation="vertical">
 
-        <!-- Car Type -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spCarType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/car_types"
-            android:prompt="@string/select_car_type" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Location"
+                android:textSize="18sp"/>
 
-        <!-- Gear Type -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spGearType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/gear_types"
-            android:prompt="@string/select_gear_type" />
+            <!-- Location -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/regions2"/>
 
-        <!-- Fuel Type -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spFuelType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/fuel_types"
-            android:prompt="@string/select_fuel_type" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Car Type"
+                android:textSize="18sp"/>
 
-        <!-- Color -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/colors"
-            android:prompt="@string/select_color" />
+            <!-- Car Type -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spCarType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/car_types2" />
 
-        <!-- Doors -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spDoors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/doors_count"
-            android:prompt="@string/select_doors" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Gear Type"
+                android:textSize="18sp"/>
 
-        <!-- Seats -->
-        <Spinner
-            android:textSize="18sp"
-            android:id="@+id/spSeats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/seats_count"
-            android:prompt="@string/select_seats" />
+            <!-- Gear Type -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spGearType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/gear_types2"/>
 
-        <!-- Test Date -->
-        <EditText
-            android:textSize="18sp"
-            android:inputType="date"
-            android:id="@+id/etTestDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Test Date (YYYY-MM-DD)" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Fuel Type"
+                android:textSize="18sp"/>
 
-        <!-- Year -->
-        <EditText
-            android:textSize="18sp"
-            android:inputType="number"
-            android:id="@+id/etYear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Year" />
+            <!-- Fuel Type -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spFuelType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/fuel_types2"/>
 
-        <!-- Horse Power -->
-        <EditText
-            android:textSize="18sp"
-            android:inputType="number"
-            android:id="@+id/etHorsePower"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Horse Power" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Color"
+                android:textSize="18sp"/>
 
-        <!-- Engine Capacity -->
-        <EditText
-            android:textSize="18sp"
-            android:inputType="number"
-            android:id="@+id/etEngineCapacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Engine Capacity" />
+            <!-- Color -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/colors2"/>
 
-        <!-- Sunroof -->
-        <CheckBox
-            android:textSize="18sp"
-            android:id="@+id/cbSunroof"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sunroof" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Doors"
+                android:textSize="18sp"/>
 
-        <!-- Two Seater -->
-        <CheckBox
-            android:textSize="18sp"
-            android:id="@+id/cbDisabled"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Disabled Accessible" />
+            <!-- Doors -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spDoors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/doors_count2" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Seats"
+                android:textSize="18sp"/>
 
-        <!-- Price Range -->
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/sliderPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:valueFrom="0"
-            android:valueTo="200000"
-            android:stepSize="1000"
-            app:thumbColor="#a9f2fd"
-            app:trackColorActive="#a9f2fd"
-            app:trackColorInactive="@color/black"
-            app:tickColorActive="@color/white"
-            app:tickColorInactive="#dbf2ff"/>
+            <!-- Seats -->
+            <Spinner
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:id="@+id/spSeats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/seats_count2" />
 
-        <!-- Apply Button -->
-        <Button
-            android:backgroundTint="#a9f2fd"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:id="@+id/btnApplyFilter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Apply Filter"
-            android:layout_marginTop="16dp" />
+            <!-- Year -->
+            <EditText
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Year" />
 
-        <Button
-            android:backgroundTint="#a9f2fd"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:id="@+id/btnback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_marginTop="16dp" />
+            <!-- Horse Power -->
+            <EditText
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etHorsePower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Horse Power" />
 
-    </LinearLayout>
+            <!-- Engine Capacity -->
+            <EditText
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etEngineCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Engine Capacity" />
+
+            <!-- Sunroof -->
+            <CheckBox
+                android:textSize="18sp"
+                android:id="@+id/cbSunroof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sunroof" />
+
+            <!-- Two Seater -->
+            <CheckBox
+                android:textSize="18sp"
+                android:id="@+id/cbDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disabled Accessible" />
+
+            <!-- Price Range -->
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/sliderPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                android:valueTo="700000"
+                android:stepSize="10000"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:thumbColor="#a9f2fd"
+                app:trackColorActive="#a9f2fd"
+                app:trackColorInactive="@color/black"
+                app:tickColorActive="@color/white"
+                app:tickColorInactive="#dbf2ff"
+                app:values="@array/initial_price_range"
+                app:labelBehavior="visible" />
+
+            <!-- Apply Button -->
+            <Button
+                android:backgroundTint="#a9f2fd"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:id="@+id/btnSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

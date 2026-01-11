@@ -2,8 +2,10 @@ package com.example.car2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.slider.RangeSlider;
 
-import java.util.ArrayList;
-
 public class SearchActivity extends AppCompatActivity {
 
     Spinner spRegion, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats;
+    EditText etYear, etHorsePower, etEngineCapacity;
     CheckBox cbSunroof, cbDisabled;
     RangeSlider sliderPrice;
     Button btnApplyFilter;
@@ -29,7 +30,7 @@ public class SearchActivity extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
 
         // Spinners
-        spRegion = findViewById(R.id.spRegion);
+        spRegion = findViewById(R.id.spLocation);
         spCarType = findViewById(R.id.spCarType);
         spGearType = findViewById(R.id.spGearType);
         spFuelType = findViewById(R.id.spFuelType);
@@ -37,15 +38,20 @@ public class SearchActivity extends AppCompatActivity {
         spDoors = findViewById(R.id.spDoors);
         spSeats = findViewById(R.id.spSeats);
 
+        // EditTexts
+        etYear = findViewById(R.id.etYear);
+        etHorsePower = findViewById(R.id.etHorsePower);
+        etEngineCapacity = findViewById(R.id.etEngineCapacity);
+
         // CheckBoxes
         cbSunroof = findViewById(R.id.cbSunroof);
         cbDisabled = findViewById(R.id.cbDisabled);
 
-        // Price Slider
+        // RangeSlider
         sliderPrice = findViewById(R.id.sliderPrice);
 
         // Button
-        btnApplyFilter = findViewById(R.id.btnApplyFilter);
+        btnApplyFilter = findViewById(R.id.btnSearch);
 
         btnApplyFilter.setOnClickListener(v -> applyFilter());
 
@@ -61,9 +67,6 @@ public class SearchActivity extends AppCompatActivity {
             if(item.getItemId() == R.id.mnu_add) {
                 startActivity(new Intent(SearchActivity.this, addCar.class));
                 finish();
-            }
-            if(item.getItemId() == R.id.mnu_search) {
-
             }
             return true;
         });
@@ -85,6 +88,10 @@ public class SearchActivity extends AppCompatActivity {
         float minPrice = sliderPrice.getValues().get(0);
         float maxPrice = sliderPrice.getValues().get(1);
 
+        String year = etYear.getText().toString();
+        String horsePower = etHorsePower.getText().toString();
+        String engineCapacity = etEngineCapacity.getText().toString();
+
         Intent intent = new Intent();
         intent.putExtra("region", region);
         intent.putExtra("carType", carType);
@@ -97,6 +104,11 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra("disabled", disabledAccessible);
         intent.putExtra("minPrice", minPrice);
         intent.putExtra("maxPrice", maxPrice);
+
+        // فقط إذا EditText فيها قيمة محددة نرسلها، إذا فاضية بنفع كل القيم
+        if (!TextUtils.isEmpty(year)) intent.putExtra("year", year);
+        if (!TextUtils.isEmpty(horsePower)) intent.putExtra("horsePower", horsePower);
+        if (!TextUtils.isEmpty(engineCapacity)) intent.putExtra("engineCapacity", engineCapacity);
 
         setResult(RESULT_OK, intent);
         finish();

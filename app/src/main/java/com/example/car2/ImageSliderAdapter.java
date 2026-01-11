@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.ImageViewHolder> {
 
     private Context context;
-    private String[] images;
+    private List<String> images;
 
-    public ImageSliderAdapter(Context context, String[] images) {
+    public ImageSliderAdapter(Context context, List<String> images) {
         this.context = context;
         this.images = images;
     }
@@ -34,12 +36,12 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Glide.with(context).load(images[position]).into(holder.imageView);
+        Glide.with(context).load(images.get(position)).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return 5;
     }
 
     static class ImageViewHolder extends RecyclerView.ViewHolder {

@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
+import java.util.ArrayList;
+
+public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     private Context context;
     private ArrayList<Car> cars;
@@ -33,20 +36,20 @@ import java.util.ArrayList;public class CarAdapter extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
         Car car = cars.get(position);
 
-        // Load first image of the car
-        Glide.with(context).load(car.getImages()[0]).into(holder.imgCar);
+        // Load first image safely
+        if (car.getImages() != null && !car.getImages().isEmpty() && car.getImages().get(0) != null) {
+            Glide.with(context).load(car.getImages().get(0)).into(holder.imgCar);
+        }
 
-        // Show type and price
-        holder.txtType.setText(car.getType());
-        holder.txtPrice.setText(car.getPrice());
+        holder.txtType.setText(car.getType() != null ? car.getType() : "نوع غير محدد");
+        holder.txtPrice.setText(car.getPrice() != null ? car.getPrice() : "سعر غير محدد");
 
-        // Set click listener to open details page
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CarDetailsActivity.class);
             intent.putExtra("type", car.getType());
             intent.putExtra("price", car.getPrice());
-            intent.putExtra("details", car.getDetails());
-            intent.putExtra("images", car.getImages());
+            intent.putStringArrayListExtra("images", new ArrayList<>(car.getImages()));
+            intent.putStringArrayListExtra("details", new ArrayList<>(car.getDetails())); // 🔑 أرسل التفاصيل
             context.startActivity(intent);
         });
     }
