@@ -103,25 +103,18 @@ public class Edit extends AppCompatActivity {
             // ✅ استخدم uid الحالي
             newCar.put("ownerId", user.getUid());
 
-            db.collection("cars")
-                    .add(newCar)
-                    .addOnSuccessListener(docRef -> {
-                        db.collection("cars").document(oldCar.getId())
-                                .delete()
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(Edit.this, "Car updated successfully!", Toast.LENGTH_SHORT).show();
-                                    progressOverlay.setVisibility(View.GONE);
-                                    finish();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(Edit.this, "Failed to delete old car!", Toast.LENGTH_SHORT).show();
-                                    progressOverlay.setVisibility(View.GONE);
-                                });
+            db.collection("cars").document(oldCar.getId())
+                    .set(newCar)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(Edit.this, "Car updated successfully!", Toast.LENGTH_SHORT).show();
+                        progressOverlay.setVisibility(View.GONE);
+                        finish();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(Edit.this, "Failed to add new car!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Edit.this, "Failed to update car!", Toast.LENGTH_SHORT).show();
                         progressOverlay.setVisibility(View.GONE);
                     });
+
         });
 
     }
