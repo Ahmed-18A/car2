@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Car2">
         <activity
+            android:name=".Edit"
+            android:exported="false" />
+        <activity
             android:name=".MyCars"
             android:exported="false" />
         <activity

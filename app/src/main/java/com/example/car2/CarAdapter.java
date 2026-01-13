@@ -2,6 +2,7 @@ package com.example.car2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
         Car car = cars.get(position);
 
-        // Load first image safely
+        // Load first image
         if (car.getImages() != null && !car.getImages().isEmpty() && car.getImages().get(0) != null) {
             Glide.with(context).load(car.getImages().get(0)).into(holder.imgCar);
         }
@@ -45,13 +46,21 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, CarDetailsActivity.class);
-            intent.putExtra("type", car.getType());
-            intent.putExtra("price", car.getPrice()+"$");
-            intent.putStringArrayListExtra("images", new ArrayList<>(car.getImages()));
-            intent.putStringArrayListExtra("details", new ArrayList<>(car.getDetails()));
-            context.startActivity(intent);
+
+            if (context.getClass().getSimpleName().equals("MyCars")) {
+                // تمرير السيارة مع الـ ID الصحيح
+                Intent intent = new Intent(context, Edit.class);
+                intent.putExtra("car", car);
+                intent.putExtra("carId", car.getId());
+                context.startActivity(intent);
+            } else {
+                Intent intent = new Intent(context, CarDetailsActivity.class);
+                intent.putExtra("car", car);
+                context.startActivity(intent);
+            }
+
         });
+
     }
 
     @Override

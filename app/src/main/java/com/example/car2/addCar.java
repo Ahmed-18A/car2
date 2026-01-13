@@ -302,7 +302,7 @@ public class addCar extends AppCompatActivity {
         Map<String, Object> car = new HashMap<>();
 
         // ===== متغيرات مستقلة لكل صفة =====
-        String region = spLocation.getSelectedItem().toString();
+        String location = spLocation.getSelectedItem().toString();
         String gearType = spGearType.getSelectedItem().toString();
         String fuelType = spFuelType.getSelectedItem().toString();
         String color = spColor.getSelectedItem().toString();
@@ -318,7 +318,7 @@ public class addCar extends AppCompatActivity {
         // ===== حفظ الحقول المستقلة =====
         car.put("price", etPrice.getText().toString());
         car.put("type", spCarType.getSelectedItem().toString());
-        car.put("region", region);
+        car.put("location", location);
         car.put("gearType", gearType);
         car.put("fuelType", fuelType);
         car.put("color", color);
@@ -330,22 +330,6 @@ public class addCar extends AppCompatActivity {
         car.put("engineCapacity", engineCapacity);
         car.put("sunroof", sunroof);
         car.put("disabledCar", disabledCar);
-
-        // ===== حفظ ArrayList details بنفس القيم =====
-        ArrayList<String> details = new ArrayList<>();
-        details.add(gearType);
-        details.add(fuelType);
-        details.add(color);
-        details.add(doors);
-        details.add(seats);
-        details.add(testDate);
-        details.add(year);
-        details.add(horsePower);
-        details.add(engineCapacity);
-        details.add(sunroof);
-        details.add(disabledCar);
-
-        car.put("details", details); // 🔑 Array واحدة
 
         car.put("images", imageUrls);
         car.put("ownerId", user.getUid());

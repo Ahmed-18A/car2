@@ -150,7 +150,7 @@ public class dashboard extends AppCompatActivity {
 
         for (Car car : allCarsList) {
             // ===== Spinners =====
-            if (!"Any".equals(region) && (car.getRegion() == null || !car.getRegion().equals(region)))
+            if (!"Any".equals(region) && (car.getLocation() == null || !car.getLocation().equals(region)))
                 continue;
 
             if (!"Any".equals(carType) && (car.getType() == null || !car.getType().equals(carType)))

@@ -29,19 +29,14 @@ public class CarDetailsActivity extends AppCompatActivity {
         txtPrice = findViewById(R.id.txtPrice);
         tableDetails = findViewById(R.id.tableDetails);
 
-        // ===== جلب البيانات من Intent =====
-        Intent intent = getIntent();
-        String type = intent.getStringExtra("type");
-        String price = intent.getStringExtra("price");
-        ArrayList<String> images = intent.getStringArrayListExtra("images");
-        ArrayList<String> details = intent.getStringArrayListExtra("details");
+        Car car = (Car) getIntent().getSerializableExtra("car");
 
-        txtType.setText(type != null ? type : "");
-        txtPrice.setText(price != null ? price : "");
+        txtType.setText(car.getType() != null ? car.getType() : "");
+        txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
         // ===== ViewPager للصور =====
-        if (images != null && !images.isEmpty()) {
-            ImageSliderAdapter sliderAdapter = new ImageSliderAdapter(this, images);
+        if (car.getImages() != null && !car.getImages().isEmpty()) {
+            ImageSliderAdapter sliderAdapter = new ImageSliderAdapter(this, car.getImages());
             viewPagerImages.setAdapter(sliderAdapter);
         }
 
@@ -52,8 +47,8 @@ public class CarDetailsActivity extends AppCompatActivity {
                 "Engine Capacity", "Sunroof", "Disabled Accessible"
         };
 
-        if (details != null) {
-            for (int i = 0; i < labels.length && i < details.size(); i++) {
+        if (car.getDetails() != null) {
+            for (int i = 0; i < labels.length && i < car.getDetails().size(); i++) {
                 TableRow row = new TableRow(this);
 
                 TextView label = new TextView(this);
@@ -61,7 +56,7 @@ public class CarDetailsActivity extends AppCompatActivity {
                 label.setPadding(16,16,16,16);
 
                 TextView value = new TextView(this);
-                value.setText(details.get(i));
+                value.setText(car.getDetails().get(i));
                 value.setPadding(16,16,16,16);
 
                 row.addView(label);

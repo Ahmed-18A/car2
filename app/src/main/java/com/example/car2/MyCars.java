@@ -94,6 +94,7 @@ public class MyCars extends AppCompatActivity {
                 myCars.clear();
                 for (QueryDocumentSnapshot doc : task.getResult()) {
                     Car car = doc.toObject(Car.class);
+                    car.setId(doc.getId());
                     myCars.add(car);
                 }
                 carAdapter.notifyDataSetChanged();

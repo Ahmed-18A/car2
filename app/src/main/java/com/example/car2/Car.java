@@ -1,51 +1,40 @@
 package com.example.car2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Car {
+public class Car implements Serializable {
 
-    // ===== BASIC =====
     private String type;
     private String price;
-
-    // ===== DISPLAY =====
-    private ArrayList<String> images;
-    private ArrayList<String> details;
-
-    // ===== FILTERABLE FIELDS =====
-    private String region;
+    private String location;
     private String gearType;
     private String fuelType;
     private String color;
-
     private String doors;
     private String seats;
-
     private String sunroof;
     private String disabledCar;
-
     private String testDate;
     private String year;
     private String horsePower;
     private String engineCapacity;
+    private String id;
+    private String userId;
+    private ArrayList<String> images;
 
-    // ===== REQUIRED EMPTY CONSTRUCTOR =====
     public Car() { }
 
-    // ===== FULL CONSTRUCTOR =====
-    public Car(String type, String price,
-               ArrayList<String> images, ArrayList<String> details,
-               String region, String gearType, String fuelType, String color,
-               String doors, String seats,
-               String sunroof, String disabledCar,
-               String testDate, String year,
-               String horsePower, String engineCapacity) {
+    public Car(String type, String price, ArrayList<String> images,
+               String location, String gearType, String fuelType, String color,
+               String doors, String seats, String sunroof, String disabledCar,
+               String testDate, String year, String horsePower, String engineCapacity,
+               String userId) {
 
         this.type = type;
         this.price = price;
         this.images = images;
-        this.details = details;
-        this.region = region;
+        this.location = location;
         this.gearType = gearType;
         this.fuelType = fuelType;
         this.color = color;
@@ -57,11 +46,20 @@ public class Car {
         this.year = year;
         this.horsePower = horsePower;
         this.engineCapacity = engineCapacity;
+        this.userId = userId;
     }
 
-    // ===== GETTERS & SETTERS =====
     public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
@@ -69,11 +67,25 @@ public class Car {
     public ArrayList<String> getImages() { return images; }
     public void setImages(ArrayList<String> images) { this.images = images; }
 
-    public ArrayList<String> getDetails() { return details; }
-    public void setDetails(ArrayList<String> details) { this.details = details; }
+    public ArrayList<String> getDetails() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(location);
+        list.add(gearType);
+        list.add(fuelType);
+        list.add(color);
+        list.add(doors);
+        list.add(seats);
+        list.add(testDate);
+        list.add(year);
+        list.add(horsePower);
+        list.add(engineCapacity);
+        list.add(sunroof);
+        list.add(disabledCar);
+        return list;
+    }
 
-    public String getRegion() { return region; }
-    public void setRegion(String region) { this.region = region; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
     public String getGearType() { return gearType; }
     public void setGearType(String gearType) { this.gearType = gearType; }
@@ -82,6 +94,7 @@ public class Car {
     public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
     public String getColor() { return color; }
+
     public void setColor(String color) { this.color = color; }
 
     public String getDoors() { return doors; }
@@ -119,13 +132,11 @@ public class Car {
     }
 
     public boolean hasSunroof() {
-        return "true".equalsIgnoreCase(sunroof);
+        return "Yes".equalsIgnoreCase(sunroof);
     }
 
     public boolean isDisabledCarBool() {
-        return "true".equalsIgnoreCase(disabledCar);
+        return "Yes".equalsIgnoreCase(disabledCar);
     }
-
-
 
 }

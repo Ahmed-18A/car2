@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dbf2ff"
+    android:layoutDirection="ltr">
+
+    <ScrollView
+        android:layout_above="@id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        android:textSize="18sp"
+                        android:paddingBottom="5dp"/>
+
+                    <!-- Spinner -->
+                    <Spinner
+                        android:id="@+id/spLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/regions"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Car Type"
+                        android:textSize="18sp"/>
+
+                    <!-- Car Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spCarType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/car_types" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Gear Type"
+                        android:textSize="18sp"/>
+
+                    <!-- Gear Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spGearType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/gear_types" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Fuel Type"
+                        android:textSize="18sp"/>
+
+                    <!-- Fuel Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spFuelType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/fuel_types" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Color"
+                        android:textSize="18sp"/>
+
+                    <!-- Color -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/colors"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Doors"
+                        android:textSize="18sp" />
+
+                    <!-- Doors -->
+                    <Spinner
+                        android:id="@+id/spDoors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/doors_count"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Seats"
+                        android:textSize="18sp"/>
+
+                    <!-- Seats -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spSeats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/seats_count" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Test Date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Test Date"
+                        android:textSize="18sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etTestDatemm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:layout_marginEnd="5dp"
+                            android:hint="MM"/>
+
+                        <EditText
+                            android:id="@+id/etTestDateyy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:hint="YY"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:layout_marginEnd="20dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Price Range -->
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="7"
+                />
+
+            <!-- Year -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Year"
+                android:textSize="18sp"/>
+            <EditText
+                android:maxLength="4"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Year" />
+
+            <!-- Horse Power -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Horse Power"
+                android:textSize="18sp"/>
+            <EditText
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etHorsePower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Horse Power" />
+
+            <!-- Engine Capacity -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Engine Capacity"
+                android:textSize="18sp"/>
+            <EditText
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:inputType="number"
+                android:id="@+id/etEngineCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Engine Capacity" />
+
+            <!-- Sunroof -->
+            <CheckBox
+                android:textSize="18sp"
+                android:id="@+id/cbSunroof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sunroof" />
+
+            <!-- Disabled Accessible -->
+            <CheckBox
+                android:textSize="18sp"
+                android:id="@+id/cbDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disabled Accessible" />
+
+            <Button
+                android:backgroundTint="#a9f2fd"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:id="@+id/btnchImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add 5 images"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:backgroundTint="#a9f2fd"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:id="@+id/btnchinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply Changes"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/progressOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+</RelativeLayout>
