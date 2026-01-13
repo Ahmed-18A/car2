@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
 public class CarDetailsActivity extends AppCompatActivity {
@@ -34,9 +36,8 @@ public class CarDetailsActivity extends AppCompatActivity {
         ArrayList<String> images = intent.getStringArrayListExtra("images");
         ArrayList<String> details = intent.getStringArrayListExtra("details");
 
-        // ===== تعيين النوع والسعر =====
-        txtType.setText(type != null ? type : "نوع غير محدد");
-        txtPrice.setText(price != null ? price : "سعر غير محدد");
+        txtType.setText(type != null ? type : "");
+        txtPrice.setText(price != null ? price : "");
 
         // ===== ViewPager للصور =====
         if (images != null && !images.isEmpty()) {
@@ -46,9 +47,9 @@ public class CarDetailsActivity extends AppCompatActivity {
 
         // ===== تعبئة جدول التفاصيل =====
         String[] labels = {
-                "Region", "Gear Type", "Fuel Type", "Color", "Test Date",
-                "Doors", "Seats", "Sunroof", "Disabled Accessible", "Year",
-                "Horsepower", "Engine Capacity"
+                "Location", "Gear Type", "Fuel Type", "Color",
+                "Doors", "Seats","Test Date", "Year", "Horsepower",
+                "Engine Capacity", "Sunroof", "Disabled Accessible"
         };
 
         if (details != null) {
@@ -70,4 +71,5 @@ public class CarDetailsActivity extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -22,18 +22,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Car2">
         <activity
+            android:name=".MyCars"
+            android:exported="false" />
+        <activity
             android:name=".CarDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".log_in"
-            android:exported="false" >
-
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".sign_up"

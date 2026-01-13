@@ -30,7 +30,7 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         return new ImageViewHolder(imageView);
     }
 

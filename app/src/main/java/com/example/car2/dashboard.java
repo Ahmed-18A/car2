@@ -2,6 +2,7 @@ package com.example.car2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,19 +58,27 @@ public class dashboard extends AppCompatActivity {
                 startActivity(new Intent(dashboard.this, profile.class));
                 finish();
             }
-            if(item.getItemId() == R.id.mnu_dash) {
-
-            }
-            if(item.getItemId() == R.id.mnu_add) {
+            if (item.getItemId() == R.id.mnu_add) {
                 startActivity(new Intent(dashboard.this, addCar.class));
                 finish();
             }
-            if(item.getItemId() == R.id.mnu_search) {
-                startActivity(new Intent(dashboard.this, SearchActivity.class));
+            if (item.getItemId() == R.id.mnu_myC) {
+                startActivity(new Intent(dashboard.this, MyCars.class));
                 finish();
             }
             return true;
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        // إلغاء أي تحديد موجود
+        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+            bottomNav.getMenu().getItem(i).setChecked(false);
+        }
     }
 
     // ================= FIREBASE =================
@@ -140,33 +149,50 @@ public class dashboard extends AppCompatActivity {
 
 
         for (Car car : allCarsList) {
+            // ===== Spinners =====
+            if (!"Any".equals(region) && (car.getRegion() == null || !car.getRegion().equals(region)))
+                continue;
 
-            if (!region.equals("All") && !car.getRegion().equals(region)) continue;
-            if (!carType.equals("All") && !car.getType().equals(carType)) continue;
-            if (!gearType.equals("All") && !car.getGearType().equals(gearType)) continue;
-            if (!fuelType.equals("All") && !car.getFuelType().equals(fuelType)) continue;
-            if (!color.equals("All") && !car.getColor().equals(color)) continue;
-            if (!doors.equals("All") && !String.valueOf(car.getDoors()).equals(doors)) continue;
-            if (!seats.equals("All") && !String.valueOf(car.getSeats()).equals(seats)) continue;
+            if (!"Any".equals(carType) && (car.getType() == null || !car.getType().equals(carType)))
+                continue;
 
-            if (sunroof && !car.hasSunroof()) continue;
-            if (disabled && !car.isDisabledCar()) continue;
+            if (!"Any".equals(gearType) && (car.getGearType() == null || !car.getGearType().equals(gearType)))
+                continue;
 
-            float carPrice = Float.parseFloat(car.getPrice());
-            if (carPrice < minPrice || carPrice > maxPrice) continue;
+            if (!"Any".equals(fuelType) && (car.getFuelType() == null || !car.getFuelType().equals(fuelType)))
+                continue;
 
-            if (testDate != null && !testDate.equals("All")
-                    && !car.getTestDate().equals(testDate)) continue;
+            if (!"Any".equals(color) && (car.getColor() == null || !car.getColor().equals(color)))
+                continue;
 
-            if (year != null && !year.isEmpty()
-                    && car.getYear() != Integer.parseInt(year)) continue;
+            if (!"Any".equals(doors) && !String.valueOf(car.getDoors()).equals(doors))
+                continue;
 
-            if (horsePower != null && !horsePower.isEmpty()
-                    && car.getHorsePower() != Integer.parseInt(horsePower)) continue;
+            if (!"Any".equals(seats) && !String.valueOf(car.getSeats()).equals(seats))
+                continue;
 
-            if (engineCapacity != null && !engineCapacity.isEmpty()
-                    && car.getEngineCapacity() != Integer.parseInt(engineCapacity)) continue;
+            // ===== EditTexts =====
+            if (!TextUtils.isEmpty(year) && !year.equals(car.getYear()))
+                continue;
 
+            if (!TextUtils.isEmpty(horsePower) && !horsePower.equals(car.getHorsePower()))
+                continue;
+
+            if (!TextUtils.isEmpty(engineCapacity) && !engineCapacity.equals(car.getEngineCapacity()))
+                continue;
+
+            // ===== CheckBoxes (تم تعديلها لتكون متوافقة مع "Yes"/"No") =====
+            if (sunroof && !"Yes".equalsIgnoreCase(car.getSunroof()))
+                continue;
+
+            if (disabled && !"Yes".equalsIgnoreCase(car.getDisabledCar()))
+                continue;
+
+            // ===== Slider Price =====
+            if (Float.parseFloat(car.getPrice()) < minPrice || Float.parseFloat(car.getPrice()) > maxPrice)
+                continue;
+
+            // ===== إضافة السيارة للقائمة المعروضة =====
             shownCarsList.add(car);
         }
 

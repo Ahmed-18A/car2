@@ -50,7 +50,7 @@ public class addCar extends AppCompatActivity {
     private ArrayList<Uri> allImages = new ArrayList<>();
 
     private Spinner spLocation, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats;
-    private EditText etTestDate, etPrice, etYear, etHorsePower, etEngineCapacity;
+    private EditText etTestDateyy,etTestDatemm, etPrice, etYear, etHorsePower, etEngineCapacity;
     private CheckBox cbSunroof, cbDisabled;
     private Button btnAddImages, btnAddCar;
     private BottomNavigationView bottomNav;
@@ -81,7 +81,8 @@ public class addCar extends AppCompatActivity {
         spDoors = findViewById(R.id.spDoors);
         spSeats = findViewById(R.id.spSeats);
 
-        etTestDate = findViewById(R.id.etTestDate);
+        etTestDatemm = findViewById(R.id.etTestDatemm);
+        etTestDateyy = findViewById(R.id.etTestDateyy);
         etPrice = findViewById(R.id.etPrice);
         etYear = findViewById(R.id.etYear);
         etHorsePower = findViewById(R.id.etHorsePower);
@@ -108,8 +109,14 @@ public class addCar extends AppCompatActivity {
                     etPrice.getText().toString().trim().isEmpty() ||
                     etHorsePower.getText().toString().trim().isEmpty() ||
                     etYear.getText().toString().trim().isEmpty() ||
-                    etTestDate.getText().toString().trim().isEmpty()) {
+                    etTestDatemm.getText().toString().trim().isEmpty()||
+                    etTestDateyy.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (Integer.parseInt(etTestDatemm.getText().toString())==0||Integer.parseInt(etTestDatemm.getText().toString())>12){
+                Toast.makeText(this, "Rong test date", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -132,14 +139,25 @@ public class addCar extends AppCompatActivity {
                 startActivity(new Intent(addCar.this, dashboard.class));
                 finish();
             }
-            if(item.getItemId() == R.id.mnu_add) { }
-            if(item.getItemId() == R.id.mnu_search) {
-                startActivity(new Intent(addCar.this, SearchActivity.class));
+            if(item.getItemId() == R.id.mnu_myC) {
+                startActivity(new Intent(addCar.this, MyCars.class));
                 finish();
             }
             return true;
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        // إلغاء أي تحديد موجود
+        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+            bottomNav.getMenu().getItem(i).setChecked(false);
+        }
+    }
+
 
     // ===== PERMISSION =====
     private void checkPermissionAndOpenGallery() {
@@ -282,21 +300,50 @@ public class addCar extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
 
         Map<String, Object> car = new HashMap<>();
+
+        // ===== متغيرات مستقلة لكل صفة =====
+        String region = spLocation.getSelectedItem().toString();
+        String gearType = spGearType.getSelectedItem().toString();
+        String fuelType = spFuelType.getSelectedItem().toString();
+        String color = spColor.getSelectedItem().toString();
+        String doors = spDoors.getSelectedItem().toString();
+        String seats = spSeats.getSelectedItem().toString();
+        String testDate = etTestDatemm.getText().toString().trim() + "/" + etTestDateyy.getText().toString().trim();
+        String year = etYear.getText().toString().trim();
+        String horsePower = etHorsePower.getText().toString().trim();
+        String engineCapacity = etEngineCapacity.getText().toString().trim();
+        String sunroof = cbSunroof.isChecked() ? "Yes" : "No";
+        String disabledCar = cbDisabled.isChecked() ? "Yes" : "No";
+
+        // ===== حفظ الحقول المستقلة =====
         car.put("price", etPrice.getText().toString());
         car.put("type", spCarType.getSelectedItem().toString());
+        car.put("region", region);
+        car.put("gearType", gearType);
+        car.put("fuelType", fuelType);
+        car.put("color", color);
+        car.put("doors", doors);
+        car.put("seats", seats);
+        car.put("testDate", testDate);
+        car.put("year", year);
+        car.put("horsePower", horsePower);
+        car.put("engineCapacity", engineCapacity);
+        car.put("sunroof", sunroof);
+        car.put("disabledCar", disabledCar);
+
+        // ===== حفظ ArrayList details بنفس القيم =====
         ArrayList<String> details = new ArrayList<>();
-        details.add(spLocation.getSelectedItem().toString());
-        details.add(spGearType.getSelectedItem().toString());
-        details.add(spFuelType.getSelectedItem().toString());
-        details.add(spColor.getSelectedItem().toString());
-        details.add(spDoors.getSelectedItem().toString());
-        details.add(spSeats.getSelectedItem().toString());
-        details.add(etTestDate.getText().toString());
-        details.add(etYear.getText().toString());
-        details.add(etHorsePower.getText().toString());
-        details.add(etEngineCapacity.getText().toString());
-        details.add(cbSunroof.isChecked() ? "Yes" : "No");
-        details.add(cbDisabled.isChecked() ? "Yes" : "No");
+        details.add(gearType);
+        details.add(fuelType);
+        details.add(color);
+        details.add(doors);
+        details.add(seats);
+        details.add(testDate);
+        details.add(year);
+        details.add(horsePower);
+        details.add(engineCapacity);
+        details.add(sunroof);
+        details.add(disabledCar);
 
         car.put("details", details); // 🔑 Array واحدة
 
@@ -320,4 +367,5 @@ public class addCar extends AppCompatActivity {
                     isUploading = false;
                 });
     }
+
 }

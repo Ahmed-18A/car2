@@ -41,15 +41,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             Glide.with(context).load(car.getImages().get(0)).into(holder.imgCar);
         }
 
-        holder.txtType.setText(car.getType() != null ? car.getType() : "نوع غير محدد");
-        holder.txtPrice.setText(car.getPrice() != null ? car.getPrice() : "سعر غير محدد");
+        holder.txtType.setText(car.getType() != null ? car.getType() : "");
+        holder.txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CarDetailsActivity.class);
             intent.putExtra("type", car.getType());
-            intent.putExtra("price", car.getPrice());
+            intent.putExtra("price", car.getPrice()+"$");
             intent.putStringArrayListExtra("images", new ArrayList<>(car.getImages()));
-            intent.putStringArrayListExtra("details", new ArrayList<>(car.getDetails())); // 🔑 أرسل التفاصيل
+            intent.putStringArrayListExtra("details", new ArrayList<>(car.getDetails()));
             context.startActivity(intent);
         });
     }

@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +24,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -96,9 +93,6 @@ public class profile extends AppCompatActivity {
         btnChangeImage.setOnClickListener(v -> showImagePickerDialog());
 
         bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.mnu_profile) {
-                item.setIcon(R.drawable.userbig);
-            }
             if(item.getItemId() == R.id.mnu_dash) {
                 startActivity(new Intent(profile.this, dashboard.class));
                 finish();
@@ -107,8 +101,8 @@ public class profile extends AppCompatActivity {
                 startActivity(new Intent(profile.this, addCar.class));
                 finish();
             }
-            if(item.getItemId() == R.id.mnu_search) {
-                startActivity(new Intent(profile.this, SearchActivity.class));
+            if(item.getItemId() == R.id.mnu_myC) {
+                startActivity(new Intent(profile.this, MyCars.class));
                 finish();
             }
             return true;
@@ -122,6 +116,18 @@ public class profile extends AppCompatActivity {
 
         btnEditInfo.setOnClickListener(v -> showEditDialog());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        // إلغاء أي تحديد موجود
+        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+            bottomNav.getMenu().getItem(i).setChecked(false);
+        }
+    }
+
 
     // ===================== PERMISSION =====================
     private void checkPermissionAndOpenGallery() {

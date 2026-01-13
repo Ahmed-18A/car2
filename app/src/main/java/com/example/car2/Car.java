@@ -3,31 +3,43 @@ package com.example.car2;
 import java.util.ArrayList;
 
 public class Car {
+
+    // ===== BASIC =====
     private String type;
     private String price;
+
+    // ===== DISPLAY =====
     private ArrayList<String> images;
     private ArrayList<String> details;
 
-    // ===== الخصائص الجديدة =====
+    // ===== FILTERABLE FIELDS =====
     private String region;
     private String gearType;
     private String fuelType;
     private String color;
-    private int doors;
-    private int seats;
-    private boolean sunroof;
-    private boolean disabledCar;
-    private String testDate;
-    private int year;
-    private int horsePower;
-    private int engineCapacity;
 
+    private String doors;
+    private String seats;
+
+    private String sunroof;
+    private String disabledCar;
+
+    private String testDate;
+    private String year;
+    private String horsePower;
+    private String engineCapacity;
+
+    // ===== REQUIRED EMPTY CONSTRUCTOR =====
     public Car() { }
 
-    public Car(String type, String price, ArrayList<String> images, ArrayList<String> details,
+    // ===== FULL CONSTRUCTOR =====
+    public Car(String type, String price,
+               ArrayList<String> images, ArrayList<String> details,
                String region, String gearType, String fuelType, String color,
-               int doors, int seats, boolean sunroof, boolean disabledCar,
-               String testDate, int year, int horsePower, int engineCapacity) {
+               String doors, String seats,
+               String sunroof, String disabledCar,
+               String testDate, String year,
+               String horsePower, String engineCapacity) {
 
         this.type = type;
         this.price = price;
@@ -47,7 +59,7 @@ public class Car {
         this.engineCapacity = engineCapacity;
     }
 
-    // ===== getters & setters =====
+    // ===== GETTERS & SETTERS =====
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
@@ -72,27 +84,48 @@ public class Car {
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
 
-    public int getDoors() { return doors; }
-    public void setDoors(int doors) { this.doors = doors; }
+    public String getDoors() { return doors; }
+    public void setDoors(String doors) { this.doors = doors; }
 
-    public int getSeats() { return seats; }
-    public void setSeats(int seats) { this.seats = seats; }
-
-    public boolean hasSunroof() { return sunroof; }
-    public void setSunroof(boolean sunroof) { this.sunroof = sunroof; }
-
-    public boolean isDisabledCar() { return disabledCar; }
-    public void setDisabledCar(boolean disabledCar) { this.disabledCar = disabledCar; }
+    public String getSeats() { return seats; }
+    public void setSeats(String seats) { this.seats = seats; }
 
     public String getTestDate() { return testDate; }
     public void setTestDate(String testDate) { this.testDate = testDate; }
 
-    public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
+    public String getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
 
-    public int getHorsePower() { return horsePower; }
-    public void setHorsePower(int horsePower) { this.horsePower = horsePower; }
+    public String getHorsePower() { return horsePower; }
+    public void setHorsePower(String horsePower) { this.horsePower = horsePower; }
 
-    public int getEngineCapacity() { return engineCapacity; }
-    public void setEngineCapacity(int engineCapacity) { this.engineCapacity = engineCapacity; }
+    public String getEngineCapacity() { return engineCapacity; }
+    public void setEngineCapacity(String engineCapacity) { this.engineCapacity = engineCapacity; }
+
+    // ===== CHECK BOOLEAN FIELDS =====
+    public String getDisabledCar() {
+        return disabledCar;
+    }
+    public void setDisabledCar(String disabledCar) {
+        this.disabledCar = disabledCar;
+    }
+
+
+    public String getSunroof() {
+        return sunroof;
+    }
+    public void setSunroof(String sunroof) {
+        this.sunroof = sunroof;
+    }
+
+    public boolean hasSunroof() {
+        return "true".equalsIgnoreCase(sunroof);
+    }
+
+    public boolean isDisabledCarBool() {
+        return "true".equalsIgnoreCase(disabledCar);
+    }
+
+
+
 }
