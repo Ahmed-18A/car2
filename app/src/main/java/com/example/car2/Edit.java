@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Edit extends AppCompatActivity {
-
+    ImageButton btnDel;
     Spinner location, type, gear, fuel, color, doors, seats,sunroof, disabledAccessible;
     EditText testMM, testYY, price, year, horsePower, engineCapacity;
     FrameLayout progressOverlay;
@@ -58,6 +59,8 @@ public class Edit extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        btnDel=findViewById(R.id.btnDel);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -107,6 +110,33 @@ public class Edit extends AppCompatActivity {
             img=true;
             hideKeyboard(this);
         });
+
+        btnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new androidx.appcompat.app.AlertDialog.Builder(Edit.this)
+                        .setTitle("Delete Car")
+                        .setMessage("Are you sure you want to delete this car?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            db.collection("cars")
+                                    .document(oldCar.getId())
+                                    .delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(Edit.this, "Car deleted successfully", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(Edit.this, "Failed to delete car", Toast.LENGTH_SHORT).show();
+                                    });
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            dialog.dismiss();
+                        })
+                        .setCancelable(true)
+                        .show();
+            }
+        });
+
 
 
         apply.setOnClickListener(v -> {
@@ -275,10 +305,6 @@ public class Edit extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Car updated successfully!", Toast.LENGTH_SHORT).show();
                     progressOverlay.setVisibility(View.GONE);
-                    Intent intent = new Intent(Edit.this, MyCars.class);
-                    intent.putExtra("carId", oldCar.getId());
-                    startActivity(intent);
-
                     finish();
                 })
                 .addOnFailureListener(e -> {

@@ -7,6 +7,7 @@
     android:layoutDirection="ltr">
 
     <ScrollView
+        android:layout_below="@+id/del"
         android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -428,6 +429,28 @@
                 android:layout_height="wrap_content"
                 android:text="Apply Changes"
                 android:layout_marginTop="10dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:id="@+id/del"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ee005f"
+                app:strokeWidth="0dp">
+
+                <ImageButton
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/btnDel"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bin" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

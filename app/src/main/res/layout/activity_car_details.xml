@@ -29,16 +29,30 @@
             android:textStyle="bold"
             android:paddingTop="8dp"/>
 
-        <TextView
-            android:id="@+id/txtPrice"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="0$"
-            android:textSize="20sp"
-            android:textColor="#2E7D32"
-            android:paddingTop="4dp"
-            android:gravity="end"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/txtPrice"
+                android:textColor="#2E7D32"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"
+                android:textSize="20sp"
+                android:textColor="#2E7D32"
+                android:paddingTop="4dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
