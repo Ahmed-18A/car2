@@ -116,9 +116,8 @@ public class dashboard extends AppCompatActivity {
             String color = data.getStringExtra("color");
             String doors = data.getStringExtra("doors");
             String seats = data.getStringExtra("seats");
-
-            boolean sunroof = data.getBooleanExtra("sunroof", false);
-            boolean disabled = data.getBooleanExtra("disabled", false);
+            String sunroof = data.getStringExtra("sunroof");
+            String disabled = data.getStringExtra("disabled");
 
             float minPrice = data.getFloatExtra("minPrice", 0);
             float maxPrice = data.getFloatExtra("maxPrice", Float.MAX_VALUE);
@@ -140,7 +139,7 @@ public class dashboard extends AppCompatActivity {
     // ================= FILTER =================
     private void applyFilter(String region, String carType, String gearType,
                              String fuelType, String color, String doors,
-                             String seats, boolean sunroof, boolean disabled,
+                             String seats, String sunroof, String disabled,
                              float minPrice, float maxPrice,
                              String testDate, String year,
                              String horsePower, String engineCapacity) {
@@ -171,6 +170,12 @@ public class dashboard extends AppCompatActivity {
             if (!"Any".equals(seats) && !String.valueOf(car.getSeats()).equals(seats))
                 continue;
 
+            if (!"Any".equals(sunroof) && !String.valueOf(car.getSunroof()).equals(sunroof))
+                continue;
+
+            if (!"Any".equals(disabled) && !String.valueOf(car.getDisabledCar()).equals(disabled))
+                continue;
+
             // ===== EditTexts =====
             if (!TextUtils.isEmpty(year) && !year.equals(car.getYear()))
                 continue;
@@ -181,16 +186,12 @@ public class dashboard extends AppCompatActivity {
             if (!TextUtils.isEmpty(engineCapacity) && !engineCapacity.equals(car.getEngineCapacity()))
                 continue;
 
-            // ===== CheckBoxes (تم تعديلها لتكون متوافقة مع "Yes"/"No") =====
-            if (sunroof && !"Yes".equalsIgnoreCase(car.getSunroof()))
-                continue;
-
-            if (disabled && !"Yes".equalsIgnoreCase(car.getDisabledCar()))
-                continue;
-
             // ===== Slider Price =====
-            if (Float.parseFloat(car.getPrice()) < minPrice || Float.parseFloat(car.getPrice()) > maxPrice)
-                continue;
+            if (maxPrice == 500000) {
+                if (Float.parseFloat(car.getPrice()) < minPrice) continue;
+            } else {
+                if (Float.parseFloat(car.getPrice()) < minPrice || Float.parseFloat(car.getPrice()) > maxPrice) continue;
+            }
 
             // ===== إضافة السيارة للقائمة المعروضة =====
             shownCarsList.add(car);

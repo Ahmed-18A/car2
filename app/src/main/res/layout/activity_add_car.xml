@@ -328,7 +328,7 @@
             <!-- Sunroof -->
             <CheckBox
                 android:textSize="18sp"
-                android:id="@+id/cbSunroof"
+                android:id="@+id/spSunroof"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sunroof" />
@@ -336,7 +336,7 @@
             <!-- Disabled Accessible -->
             <CheckBox
                 android:textSize="18sp"
-                android:id="@+id/cbDisabled"
+                android:id="@+id/spDisabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Disabled Accessible" />

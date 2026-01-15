@@ -283,6 +283,68 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Sunroof"
+                        android:textSize="18sp"/>
+
+                    <!-- Sunroof -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spSunroof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/sunroof" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Disabled Accessible"
+                        android:textSize="18sp"/>
+
+                    <!-- Disabled -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spDisabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/disabled" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <!-- Price Range -->
             <TextView
                 android:layout_marginTop="10dp"
@@ -346,22 +408,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Engine Capacity" />
-
-            <!-- Sunroof -->
-            <CheckBox
-                android:textSize="18sp"
-                android:id="@+id/cbSunroof"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sunroof" />
-
-            <!-- Disabled Accessible -->
-            <CheckBox
-                android:textSize="18sp"
-                android:id="@+id/cbDisabled"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Disabled Accessible" />
 
             <Button
                 android:backgroundTint="#a9f2fd"

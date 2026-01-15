@@ -3,18 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layoutDirection="ltr"
+    android:background="#dbf2ff"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/ImageButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/leftarrow"
-        android:background="?attr/selectableItemBackgroundBorderless" />
+    <LinearLayout
+        android:background="#dbf2ff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear">
+
+        <ImageButton
+            android:id="@+id/ImageButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/leftarrow"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
 
     <ScrollView
-        android:layout_below="@id/ImageButton"
+        android:layout_below="@id/linear"
         android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,109 +34,283 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Location"
-                android:textSize="18sp"/>
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <!-- Location -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/regions2"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        android:textSize="18sp"
+                        android:paddingBottom="5dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Car Type"
-                android:textSize="18sp"/>
+                    <!-- Spinner -->
+                    <Spinner
+                        android:id="@+id/spLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/regions2"
+                        android:textSize="18sp"/>
 
-            <!-- Car Type -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spCarType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/car_types2" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <TextView
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Gear Type"
-                android:textSize="18sp"/>
+                android:layout_height="wrap_content">
 
-            <!-- Gear Type -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spGearType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/gear_types2"/>
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Fuel Type"
-                android:textSize="18sp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Car Type"
+                        android:textSize="18sp"/>
 
-            <!-- Fuel Type -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spFuelType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/fuel_types2"/>
+                    <!-- Car Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spCarType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/car_types2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Color"
-                android:textSize="18sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Color -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spColor"
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/colors2"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Doors"
-                android:textSize="18sp"/>
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <!-- Doors -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spDoors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/doors_count2" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Seats"
-                android:textSize="18sp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Gear Type"
+                        android:textSize="18sp"/>
 
-            <!-- Seats -->
-            <Spinner
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:id="@+id/spSeats"
+                    <!-- Gear Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spGearType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/gear_types2" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/seats_count2" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Fuel Type"
+                        android:textSize="18sp"/>
+
+                    <!-- Fuel Type -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spFuelType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/fuel_types2" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Color"
+                        android:textSize="18sp"/>
+
+                    <!-- Color -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/colors2"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Doors"
+                        android:textSize="18sp" />
+
+                    <!-- Doors -->
+                    <Spinner
+                        android:id="@+id/spDoors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/doors_count2"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Seats"
+                        android:textSize="18sp"/>
+
+                    <!-- Seats -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spSeats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/seats_count2" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Sunroof"
+                        android:textSize="18sp"/>
+
+                    <!-- Sunroof -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spSunroof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/sunroof2" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Disabled Accessible"
+                        android:textSize="18sp"/>
+
+                    <!-- Disabled -->
+                    <Spinner
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:id="@+id/spDisabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/disabled2" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
 
             <!-- Year -->
             <EditText
@@ -156,29 +339,13 @@
                 android:layout_height="wrap_content"
                 android:hint="Engine Capacity" />
 
-            <!-- Sunroof -->
-            <CheckBox
-                android:textSize="18sp"
-                android:id="@+id/cbSunroof"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sunroof" />
-
-            <!-- Two Seater -->
-            <CheckBox
-                android:textSize="18sp"
-                android:id="@+id/cbDisabled"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Disabled Accessible" />
-
             <!-- Price Range -->
             <com.google.android.material.slider.RangeSlider
                 android:id="@+id/sliderPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:valueFrom="0"
-                android:valueTo="700000"
+                android:valueTo="500000"
                 android:stepSize="10000"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"

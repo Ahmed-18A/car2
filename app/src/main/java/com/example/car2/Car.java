@@ -58,14 +58,10 @@ public class Car implements Serializable {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
 
     public String getPrice() { return price; }
-    public void setPrice(String price) { this.price = price; }
 
     public ArrayList<String> getImages() { return images; }
-    public void setImages(ArrayList<String> images) { this.images = images; }
 
     public ArrayList<String> getDetails() {
         ArrayList<String> list = new ArrayList<>();
@@ -85,50 +81,32 @@ public class Car implements Serializable {
     }
 
     public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
 
     public String getGearType() { return gearType; }
-    public void setGearType(String gearType) { this.gearType = gearType; }
 
     public String getFuelType() { return fuelType; }
-    public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
     public String getColor() { return color; }
 
-    public void setColor(String color) { this.color = color; }
 
     public String getDoors() { return doors; }
-    public void setDoors(String doors) { this.doors = doors; }
 
     public String getSeats() { return seats; }
-    public void setSeats(String seats) { this.seats = seats; }
 
     public String getTestDate() { return testDate; }
-    public void setTestDate(String testDate) { this.testDate = testDate; }
 
     public String getYear() { return year; }
-    public void setYear(String year) { this.year = year; }
 
     public String getHorsePower() { return horsePower; }
-    public void setHorsePower(String horsePower) { this.horsePower = horsePower; }
 
     public String getEngineCapacity() { return engineCapacity; }
-    public void setEngineCapacity(String engineCapacity) { this.engineCapacity = engineCapacity; }
 
-    // ===== CHECK BOOLEAN FIELDS =====
     public String getDisabledCar() {
         return disabledCar;
     }
-    public void setDisabledCar(String disabledCar) {
-        this.disabledCar = disabledCar;
-    }
-
 
     public String getSunroof() {
         return sunroof;
-    }
-    public void setSunroof(String sunroof) {
-        this.sunroof = sunroof;
     }
 
     public boolean hasSunroof() {

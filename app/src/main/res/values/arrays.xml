@@ -86,6 +86,16 @@
         <item>6</item>
     </string-array>
 
+    <string-array name="sunroof">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="disabled">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
     <string-array name="seats_count">
         <item>2</item>
         <item>4</item>
@@ -180,12 +190,25 @@
         <item>Yellow</item>
     </string-array>
 
+
     <string-array name="doors_count2">
         <item>Any</item>
         <item>2</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+
+    <string-array name="sunroof2">
+        <item>Any</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="disabled2">
+        <item>Any</item>
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
 
     <string-array name="seats_count2">

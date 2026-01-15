@@ -2,6 +2,7 @@ package com.example.car2;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -88,17 +90,22 @@ public class addCar extends AppCompatActivity {
         etHorsePower = findViewById(R.id.etHorsePower);
         etEngineCapacity = findViewById(R.id.etEngineCapacity);
 
-        cbSunroof = findViewById(R.id.cbSunroof);
-        cbDisabled = findViewById(R.id.cbDisabled);
+        cbSunroof = findViewById(R.id.spSunroof);
+        cbDisabled = findViewById(R.id.spDisabled);
 
         btnAddImages = findViewById(R.id.btnSearch); // زر Add 5 images
         btnAddCar = findViewById(R.id.btnAddCar); // زر Apply Filter كزر لإضافة السيارة
 
         // ===== SELECT IMAGES =====
-        btnAddImages.setOnClickListener(v -> checkPermissionAndOpenGallery());
+        btnAddImages.setOnClickListener(v -> {
+            checkPermissionAndOpenGallery();
+            hideKeyboard(this);
+        });
 
         // ===== ADD CAR =====
         btnAddCar.setOnClickListener(v -> {
+
+            hideKeyboard(this);
 
             if (allImages.size() < 5) {
                 Toast.makeText(this, "Please select at least 5 images", Toast.LENGTH_SHORT).show();
@@ -199,8 +206,8 @@ public class addCar extends AppCompatActivity {
             allImages.clear();
             if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
-                if (count < 5) {
-                    Toast.makeText(this, "Please select at least 5 images", Toast.LENGTH_SHORT).show();
+                if (count != 5) {
+                    Toast.makeText(this, "You must select exactly 5 images", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for (int i = 0; i < count; i++) {
@@ -215,8 +222,8 @@ public class addCar extends AppCompatActivity {
 
     // ===== UPLOAD IMAGES =====
     private void uploadAllImagesAndSaveCar() {
-        if (allImages.size() < 5) {
-            Toast.makeText(this, "Please select at least 5 images", Toast.LENGTH_SHORT).show();
+        if (allImages.size() != 5) {
+            Toast.makeText(this, "You must select exactly 5 images", Toast.LENGTH_SHORT).show();
             btnAddCar.setEnabled(true);
             isUploading = false;
             return;
@@ -340,8 +347,7 @@ public class addCar extends AppCompatActivity {
                     bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show();
-                    btnAddCar.setEnabled(true);
-                    isUploading = false;
+                    startActivity(new Intent(addCar.this, dashboard.class));
                 })
                 .addOnFailureListener(e -> {
                     bottomNav.setVisibility(View.VISIBLE);
@@ -351,5 +357,12 @@ public class addCar extends AppCompatActivity {
                     isUploading = false;
                 });
     }
-
+    public static void hideKeyboard(Activity activity) {
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

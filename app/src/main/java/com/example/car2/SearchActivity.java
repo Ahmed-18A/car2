@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -17,9 +16,8 @@ import com.google.android.material.slider.RangeSlider;
 public class SearchActivity extends AppCompatActivity {
 
     ImageButton btnBack;
-    Spinner spRegion, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats;
+    Spinner spRegion, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats, spSunroof, spDisabled;
     EditText etYear, etHorsePower, etEngineCapacity;
-    CheckBox cbSunroof, cbDisabled;
     RangeSlider sliderPrice;
     Button btnApplyFilter;
 
@@ -44,8 +42,8 @@ public class SearchActivity extends AppCompatActivity {
         etEngineCapacity = findViewById(R.id.etEngineCapacity);
 
         // CheckBoxes
-        cbSunroof = findViewById(R.id.cbSunroof);
-        cbDisabled = findViewById(R.id.cbDisabled);
+        spSunroof = findViewById(R.id.spSunroof);
+        spDisabled = findViewById(R.id.spDisabled);
 
         // RangeSlider
         sliderPrice = findViewById(R.id.sliderPrice);
@@ -62,6 +60,14 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        sliderPrice.setLabelFormatter(value -> {
+            if (value == sliderPrice.getValueTo()) {
+                return "+" + String.format("%.0f", value);
+            } else {
+                return String.format("%.0f", value);
+            }
+        });
     }
 
     private void applyFilter() {
@@ -73,9 +79,9 @@ public class SearchActivity extends AppCompatActivity {
         String color = spColor.getSelectedItem().toString();
         String doors = spDoors.getSelectedItem().toString();
         String seats = spSeats.getSelectedItem().toString();
+        String sunroof = spSunroof.getSelectedItem().toString();
+        String disabledAccessible = spDisabled.getSelectedItem().toString();
 
-        boolean sunroof = cbSunroof.isChecked();
-        boolean disabledAccessible = cbDisabled.isChecked();
 
         float minPrice = sliderPrice.getValues().get(0);
         float maxPrice = sliderPrice.getValues().get(1);

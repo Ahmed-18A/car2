@@ -66,15 +66,6 @@ public class MyCars extends AppCompatActivity {
             return true;
         });
     }
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
-        // إلغاء أي تحديد موجود
-        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
-            bottomNav.getMenu().getItem(i).setChecked(false);
-        }
-    }
 
     private void loadMyCars() {
         if (currentUser == null) {
@@ -107,4 +98,59 @@ public class MyCars extends AppCompatActivity {
             }
         });
     }
+
+    private void refreshUpdatedCar(String carId) {
+        progressOverlay.setVisibility(View.VISIBLE);
+
+        db.collection("cars").document(carId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    progressOverlay.setVisibility(View.GONE);
+                    if (doc.exists()) {
+                        Car updatedCar = doc.toObject(Car.class);
+                        updatedCar.setId(doc.getId());
+
+                        // تحديث الـ ArrayList
+                        boolean found = false;
+                        for (int i = 0; i < myCars.size(); i++) {
+                            if (myCars.get(i).getId().equals(carId)) {
+                                myCars.set(i, updatedCar);
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            myCars.add(updatedCar);
+                        }
+
+                        carAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(this, "Updated car not found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    progressOverlay.setVisibility(View.GONE);
+                    Toast.makeText(this, "Failed to refresh car", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // إلغاء أي تحديد موجود
+        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+            bottomNav.getMenu().getItem(i).setChecked(false);
+        }
+
+        // تحقق إذا أتى Intent مع carId محدث
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("updatedCarId")) {
+            String updatedCarId = intent.getStringExtra("updatedCarId");
+            refreshUpdatedCar(updatedCarId);
+            // إزالة الـ Extra حتى لا تتكرر عند onResume التالية
+            intent.removeExtra("updatedCarId");
+        }
+    }
+
 }
