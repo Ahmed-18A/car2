@@ -2,6 +2,8 @@ package com.example.car2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ public class CarDetailsActivity extends AppCompatActivity {
     ViewPager2 viewPagerImages;
     TextView txtType, txtPrice;
     TableLayout tableDetails;
+    ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         txtType = findViewById(R.id.txtType);
         txtPrice = findViewById(R.id.txtPrice);
         tableDetails = findViewById(R.id.tableDetails);
+        btnBack=findViewById(R.id.ImageButton);
 
         Car car = (Car) getIntent().getSerializableExtra("car");
 
@@ -65,6 +69,14 @@ public class CarDetailsActivity extends AppCompatActivity {
                 tableDetails.addView(row);
             }
         }
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CarDetailsActivity.this, dashboard.class));
+                finish();
+            }
+        });
     }
 
 }
