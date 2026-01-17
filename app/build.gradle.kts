@@ -38,6 +38,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:24.0.1")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.swiperefreshlayout)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.appcompat)
     implementation(libs.material)

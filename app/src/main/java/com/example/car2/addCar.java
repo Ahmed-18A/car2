@@ -347,7 +347,7 @@ public class addCar extends AppCompatActivity {
                     bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(addCar.this, dashboard.class));
+                    startActivity(new Intent(addCar.this, MyCars.class));
                 })
                 .addOnFailureListener(e -> {
                     bottomNav.setVisibility(View.VISIBLE);

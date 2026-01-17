@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class dashboard extends AppCompatActivity {
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private static final int SEARCH_REQUEST = 100;
 
@@ -47,6 +50,9 @@ public class dashboard extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         loadCarsFromFirebase();
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::recreate);
 
         cardSearch.setOnClickListener(v -> {
             Intent intent = new Intent(dashboard.this, SearchActivity.class);
@@ -79,6 +85,7 @@ public class dashboard extends AppCompatActivity {
         for (int i = 0; i < bottomNav.getMenu().size(); i++) {
             bottomNav.getMenu().getItem(i).setChecked(false);
         }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     // ================= FIREBASE =================
