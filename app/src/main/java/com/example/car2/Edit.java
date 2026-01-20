@@ -38,12 +38,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Edit extends AppCompatActivity {
+public class Edit extends BaseActivity {
     ImageButton btnDel;
     Spinner location, type, gear, fuel, color, doors, seats,sunroof, disabledAccessible;
     EditText testMM, testYY, price, year, horsePower, engineCapacity;
     FrameLayout progressOverlay;
     Button apply;
+    ImageButton btnback;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -60,7 +61,11 @@ public class Edit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        applySystemBars();
+
         btnDel=findViewById(R.id.btnDel);
+
+        btnback=findViewById(R.id.ImageButton);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -109,6 +114,13 @@ public class Edit extends AppCompatActivity {
             openGalleryForFiveImages();
             img=true;
             hideKeyboard(this);
+        });
+
+        btnback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
         btnDel.setOnClickListener(new View.OnClickListener() {

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class CarDetailsActivity extends AppCompatActivity {
+public class CarDetailsActivity extends BaseActivity {
 
     Button btnChat;
     ViewPager2 viewPagerImages;
@@ -31,6 +31,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
+
+        applySystemBars();
 
         viewPagerImages = findViewById(R.id.viewPagerImages);
         txtType = findViewById(R.id.txtType);
@@ -79,7 +81,6 @@ public class CarDetailsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CarDetailsActivity.this, dashboard.class));
                 finish();
             }
         });
@@ -89,7 +90,6 @@ public class CarDetailsActivity extends AppCompatActivity {
             String carId = getIntent().getStringExtra("carId");
 
             if (myId == null || carId == null) {
-                Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
                 return;
             }
 

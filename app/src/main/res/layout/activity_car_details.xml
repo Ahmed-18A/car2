@@ -9,9 +9,9 @@
 
     <ImageButton
         android:id="@+id/ImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:scaleType="fitCenter"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
         android:src="@drawable/leftarrow"
         android:background="@android:color/transparent" />
 
@@ -73,11 +73,13 @@
         android:stretchColumns="1"/>
 
     <Button
+        android:backgroundTint="#a9f2fd"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:id="@+id/btnChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="تواصل مع البائع" />
+        android:text="Contact" />
 
 </LinearLayout>

@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
-public class MyCars extends AppCompatActivity {
+public class MyCars extends BaseActivity {
 
     private RecyclerView rvMyCars;
     private CarAdapter carAdapter;
@@ -35,6 +35,8 @@ public class MyCars extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cars);
+
+        applySystemBars();
 
         bottomNav=findViewById(R.id.bottom_navigation);
         bottomNav.getMenu().getItem(0).setChecked(false);

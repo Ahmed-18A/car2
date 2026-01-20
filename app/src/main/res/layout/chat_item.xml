@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="#dbf2ff"
     android:layout_margin="6dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp">

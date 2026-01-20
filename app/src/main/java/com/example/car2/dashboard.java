@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class dashboard extends AppCompatActivity {
+public class dashboard extends BaseActivity {
 
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -40,6 +40,8 @@ public class dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        applySystemBars();
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.getMenu().getItem(0).setChecked(false);

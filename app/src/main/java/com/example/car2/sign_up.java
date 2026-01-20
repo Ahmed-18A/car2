@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class sign_up extends AppCompatActivity {
+public class sign_up extends BaseActivity {
 
     EditText etEmail, etPass, etName, etPhone;
     Button btnSignup,btnInpage;
@@ -34,6 +34,8 @@ public class sign_up extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        applySystemBars();
 
         getWindow().setStatusBarColor(Color.parseColor("#dbf2ff"));
 

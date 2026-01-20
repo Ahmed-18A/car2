@@ -42,7 +42,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class addCar extends AppCompatActivity {
+public class addCar extends BaseActivity  {
 
     private static final int REQUEST_GALLERY = 101;
     private static final String IMGBB_API_KEY = "3c6e38b46c0548e23b364cf83954877f";
@@ -66,6 +66,8 @@ public class addCar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car);
+
+        applySystemBars();
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.getMenu().getItem(0).setChecked(false);

@@ -53,7 +53,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.VH> {
 
         // لون الفقاعة
         h.cardBubble.setCardBackgroundColor(
-                isMe ? Color.parseColor("#DCF8C6") : Color.WHITE
+                isMe ? Color.parseColor("#dbf2ff") : Color.WHITE
         );
     }
 

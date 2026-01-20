@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class log_in extends AppCompatActivity {
+public class log_in extends BaseActivity {
     EditText etEmail, etPass;
     Button btnLogin,btnReset,btnCreate;
     FirebaseAuth auth;
@@ -27,6 +27,8 @@ public class log_in extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        applySystemBars();
 
         getWindow().setStatusBarColor(Color.parseColor("#dbf2ff"));
 

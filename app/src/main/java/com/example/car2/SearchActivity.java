@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.slider.RangeSlider;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
 
     ImageButton btnBack;
     Spinner spRegion, spCarType, spGearType, spFuelType, spColor, spDoors, spSeats, spSunroof, spDisabled;
@@ -25,6 +25,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        applySystemBars();
 
         btnBack=findViewById(R.id.ImageButton);
 
@@ -56,7 +58,6 @@ public class SearchActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SearchActivity.this, dashboard.class));
                 finish();
             }
         });

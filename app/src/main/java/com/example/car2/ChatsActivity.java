@@ -15,7 +15,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 
-public class ChatsActivity extends AppCompatActivity {
+public class ChatsActivity extends BaseActivity {
 
     BottomNavigationView bottomNav;
 
@@ -26,12 +26,17 @@ public class ChatsActivity extends AppCompatActivity {
     FirebaseFirestore db;
     String myId;
 
-    private ListenerRegistration chatsListener; // ✅ مهم
+    private ListenerRegistration chatsListener;
+
+    // ✅ يمنع التكرار نهائياً
+    private final java.util.HashMap<String, ChatItem> chatsMap = new java.util.HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+
+        applySystemBars();
 
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.getMenu().getItem(0).setChecked(false);
@@ -76,26 +81,24 @@ public class ChatsActivity extends AppCompatActivity {
     }
 
     private void startChatsListener() {
-        // ✅ لو كان في listener قديم، سكّره
+        // ✅ سكّر القديم
         if (chatsListener != null) {
             chatsListener.remove();
             chatsListener = null;
         }
 
+        // ✅ نظّف البيانات القديمة
+        chatsMap.clear();
+        chats.clear();
+        adapter.notifyDataSetChanged();
+
         chatsListener = db.collection("chats")
                 .whereArrayContains("users", myId)
+                .orderBy("lastMessageTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .addSnapshotListener((snap, e) -> {
+                    if (e != null || snap == null) return;
 
-                    if (e != null) {
-                        // لو عمل sign out أو صار auth null، ممكن يظهر Permission Denied
-                        // ما نعملش توست مزعج
-                        return;
-                    }
-                    if (snap == null) return;
-
-                    chats.clear();
-                    adapter.notifyDataSetChanged();
-
+                    // ✅ خزّن حسب chatId (بدون تكرار)
                     for (var doc : snap.getDocuments()) {
 
                         ArrayList<String> users = (ArrayList<String>) doc.get("users");
@@ -110,46 +113,66 @@ public class ChatsActivity extends AppCompatActivity {
                         }
                         if (otherId == null) continue;
 
-                        ChatItem item = new ChatItem();
-                        item.chatId = doc.getId();
+                        String chatId = doc.getId();
+
+                        ChatItem item = chatsMap.get(chatId);
+                        if (item == null) item = new ChatItem();
+
+                        item.chatId = chatId;
                         item.otherUserId = otherId;
 
-                        loadUserData(item);
+                        // (اختياري) إذا بدك تستخدمهم بالـ adapter لاحقاً:
+                        // item.lastMessage = doc.getString("lastMessage");
+
+                        chatsMap.put(chatId, item);
+
+                        // حمّل بيانات المستخدم مرة واحدة
+                        if (item.otherUserName == null || item.otherUserName.trim().isEmpty()) {
+                            loadUserDataIntoMap(chatId, otherId);
+                        }
                     }
+
+                    refreshChatsListFromMap();
                 });
     }
 
-    private void loadUserData(ChatItem item) {
-        db.collection("users").document(item.otherUserId)
+    private void loadUserDataIntoMap(String chatId, String otherUserId) {
+        db.collection("users").document(otherUserId)
                 .get()
                 .addOnSuccessListener(d -> {
+                    ChatItem item = chatsMap.get(chatId);
+                    if (item == null) return;
 
                     String name = d.getString("name");
                     if (name == null || name.trim().isEmpty()) name = "User";
 
                     item.otherUserName = name;
-
-                    // ✅ عندك اسم الحقل profileImage
                     item.otherUserImage = d.getString("profileImage");
 
-                    chats.add(item);
-                    adapter.notifyDataSetChanged();
+                    chatsMap.put(chatId, item);
+                    refreshChatsListFromMap();
                 })
                 .addOnFailureListener(err -> {
-                    // إذا users rules مانعة القراءة رح يفشل هون
-                    // خليه صامت أو اعرض رسالة لو بدك:
-                    // Toast.makeText(this, "User read denied", Toast.LENGTH_SHORT).show();
+                    // صامت
                 });
+    }
+
+    private void refreshChatsListFromMap() {
+        chats.clear();
+        chats.addAll(chatsMap.values());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        // ✅ سكّر الليستنر عشان ما يطلع Permission Denied بعد Sign out
         if (chatsListener != null) {
             chatsListener.remove();
             chatsListener = null;
         }
+
+        chatsMap.clear();
+        chats.clear();
     }
 }

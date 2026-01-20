@@ -44,7 +44,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class profile extends AppCompatActivity {
+public class profile extends BaseActivity {
 
     private static final int REQUEST_GALLERY = 101;
     private static final int REQUEST_CAMERA = 100;
@@ -68,6 +68,8 @@ public class profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        applySystemBars();
 
         progressOverlay = findViewById(R.id.progressOverlay);
 
