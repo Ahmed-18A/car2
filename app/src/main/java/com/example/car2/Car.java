@@ -20,7 +20,10 @@ public class Car implements Serializable {
     private String horsePower;
     private String engineCapacity;
     private String id;
-    private String userId;
+
+    // 🔴 هذا لازم يكون نفس الاسم في Firebase
+    private String ownerId;
+
     private ArrayList<String> images;
 
     public Car() { }
@@ -28,8 +31,8 @@ public class Car implements Serializable {
     public Car(String type, String price, ArrayList<String> images,
                String location, String gearType, String fuelType, String color,
                String doors, String seats, String sunroof, String disabledCar,
-               String testDate, String year, String horsePower, String engineCapacity,
-               String userId) {
+               String testDate, String year, String horsePower,
+               String engineCapacity, String ownerId) {
 
         this.type = type;
         this.price = price;
@@ -46,22 +49,60 @@ public class Car implements Serializable {
         this.year = year;
         this.horsePower = horsePower;
         this.engineCapacity = engineCapacity;
-        this.userId = userId;
+        this.ownerId = ownerId;
     }
+
+    // ===================== GETTERS =====================
 
     public String getType() { return type; }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
 
     public String getPrice() { return price; }
 
     public ArrayList<String> getImages() { return images; }
+
+    public String getId() { return id; }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLocation() { return location; }
+
+    public String getGearType() { return gearType; }
+
+    public String getFuelType() { return fuelType; }
+
+    public String getColor() { return color; }
+
+    public String getDoors() { return doors; }
+
+    public String getSeats() { return seats; }
+
+    public String getTestDate() { return testDate; }
+
+    public String getYear() { return year; }
+
+    public String getHorsePower() { return horsePower; }
+
+    public String getEngineCapacity() { return engineCapacity; }
+
+    public String getSunroof() { return sunroof; }
+
+    public String getDisabledCar() { return disabledCar; }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    // ===================== HELPERS =====================
+
+    public boolean hasSunroof() {
+        return "Yes".equalsIgnoreCase(sunroof);
+    }
+
+    public boolean isDisabledCarBool() {
+        return "Yes".equalsIgnoreCase(disabledCar);
+    }
 
     public ArrayList<String> getDetails() {
         ArrayList<String> list = new ArrayList<>();
@@ -79,42 +120,4 @@ public class Car implements Serializable {
         list.add(disabledCar);
         return list;
     }
-
-    public String getLocation() { return location; }
-
-    public String getGearType() { return gearType; }
-
-    public String getFuelType() { return fuelType; }
-
-    public String getColor() { return color; }
-
-
-    public String getDoors() { return doors; }
-
-    public String getSeats() { return seats; }
-
-    public String getTestDate() { return testDate; }
-
-    public String getYear() { return year; }
-
-    public String getHorsePower() { return horsePower; }
-
-    public String getEngineCapacity() { return engineCapacity; }
-
-    public String getDisabledCar() {
-        return disabledCar;
-    }
-
-    public String getSunroof() {
-        return sunroof;
-    }
-
-    public boolean hasSunroof() {
-        return "Yes".equalsIgnoreCase(sunroof);
-    }
-
-    public boolean isDisabledCarBool() {
-        return "Yes".equalsIgnoreCase(disabledCar);
-    }
-
 }

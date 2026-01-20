@@ -382,7 +382,8 @@
         android:background="#80000000"
         android:visibility="gone"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:elevation="50dp">
 
         <ProgressBar
             android:id="@+id/progressBar"

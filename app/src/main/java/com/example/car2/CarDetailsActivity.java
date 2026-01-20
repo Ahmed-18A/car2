@@ -3,20 +3,25 @@ package com.example.car2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class CarDetailsActivity extends AppCompatActivity {
 
+    Button btnChat;
     ViewPager2 viewPagerImages;
     TextView txtType, txtPrice;
     TableLayout tableDetails;
@@ -32,6 +37,7 @@ public class CarDetailsActivity extends AppCompatActivity {
         txtPrice = findViewById(R.id.txtPrice);
         tableDetails = findViewById(R.id.tableDetails);
         btnBack=findViewById(R.id.ImageButton);
+        btnChat = findViewById(R.id.btnChat);
 
         Car car = (Car) getIntent().getSerializableExtra("car");
 
@@ -77,6 +83,42 @@ public class CarDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnChat.setOnClickListener(v -> {
+
+            String myId = FirebaseAuth.getInstance().getUid();
+            String carId = getIntent().getStringExtra("carId");
+
+            if (myId == null || carId == null) {
+                Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            FirebaseFirestore.getInstance()
+                    .collection("cars")
+                    .document(carId)
+                    .get()
+                    .addOnSuccessListener(doc -> {
+
+                        String sellerId = doc.getString("ownerId"); // ✅ من المصدر مباشرة
+
+                        if (sellerId == null) {
+                            return;
+                        }
+
+                        if (myId.equals(sellerId)) {
+                            return;
+                        }
+
+                        Intent intent = new Intent(CarDetailsActivity.this, ChatActivity.class);
+                        intent.putExtra("sellerId", sellerId);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Failed to load ownerId", Toast.LENGTH_SHORT).show()
+                    );
+        });
+
+
     }
 
 }

@@ -37,6 +37,8 @@ public class MyCars extends AppCompatActivity {
         setContentView(R.layout.activity_my_cars);
 
         bottomNav=findViewById(R.id.bottom_navigation);
+        bottomNav.getMenu().getItem(0).setChecked(false);
+        bottomNav.getMenu().setGroupCheckable(0, false, true);
 
         rvMyCars = findViewById(R.id.rvMyCars);
         progressOverlay = findViewById(R.id.progressOverlay);
@@ -63,19 +65,17 @@ public class MyCars extends AppCompatActivity {
                 startActivity(new Intent(MyCars.this, dashboard.class));
                 finish();
             }
+            if(item.getItemId() == R.id.mnu_chats) {
+                startActivity(new Intent(MyCars.this, ChatsActivity.class));
+                finish();
+            }
             return true;
         });
     }
 
     protected void onResume() {
-
-        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
-            bottomNav.getMenu().getItem(i).setChecked(false);
-        }
-
         super.onResume();
         loadMyCars();
-
     }
 
     private void loadMyCars() {

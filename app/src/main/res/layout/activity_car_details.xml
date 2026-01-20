@@ -69,7 +69,15 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/tableDetails"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:stretchColumns="1"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="تواصل مع البائع" />
 
 </LinearLayout>

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yad3"
+                android:text="Car2"
                 android:textSize="50sp"
                 android:textColor="#40000000"
                 android:translationY="3dp"
@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yad3"
+                android:text="Car2"
                 android:textSize="50sp"
                 android:textColor="#000000" />
 

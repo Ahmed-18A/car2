@@ -68,6 +68,8 @@ public class addCar extends AppCompatActivity {
         setContentView(R.layout.activity_add_car);
 
         bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.getMenu().getItem(0).setChecked(false);
+        bottomNav.getMenu().setGroupCheckable(0, false, true);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -131,8 +133,6 @@ public class addCar extends AppCompatActivity {
             btnAddCar.setEnabled(false);
 
             progressOverlay.setVisibility(View.VISIBLE);
-            bottomNav.setVisibility(View.GONE);
-
             uploadAllImagesAndSaveCar();
         });
 
@@ -150,21 +150,13 @@ public class addCar extends AppCompatActivity {
                 startActivity(new Intent(addCar.this, MyCars.class));
                 finish();
             }
+            if(item.getItemId() == R.id.mnu_chats) {
+                startActivity(new Intent(addCar.this, ChatsActivity.class));
+                finish();
+            }
             return true;
         });
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
-        // إلغاء أي تحديد موجود
-        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
-            bottomNav.getMenu().getItem(i).setChecked(false);
-        }
-    }
-
 
     // ===== PERMISSION =====
     private void checkPermissionAndOpenGallery() {
@@ -265,7 +257,6 @@ public class addCar extends AppCompatActivity {
                     public void onFailure(Call call, java.io.IOException e) {
                         runOnUiThread(() -> {
                             progressOverlay.setVisibility(View.GONE);
-                            bottomNav.setVisibility(View.VISIBLE);
                             Toast.makeText(addCar.this, "Upload failed", Toast.LENGTH_SHORT).show();
                             btnAddCar.setEnabled(true);
                             isUploading = false;
@@ -282,7 +273,6 @@ public class addCar extends AppCompatActivity {
 
                         } catch (Exception e) {
                             runOnUiThread(() -> {
-                                bottomNav.setVisibility(View.VISIBLE);
                                 progressOverlay.setVisibility(View.GONE);
                                 Toast.makeText(addCar.this, "Upload error", Toast.LENGTH_SHORT).show();
                                 btnAddCar.setEnabled(true);
@@ -344,13 +334,11 @@ public class addCar extends AppCompatActivity {
         db.collection("cars")
                 .add(car)
                 .addOnSuccessListener(docRef -> {
-                    bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(addCar.this, MyCars.class));
                 })
                 .addOnFailureListener(e -> {
-                    bottomNav.setVisibility(View.VISIBLE);
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Failed to add car", Toast.LENGTH_SHORT).show();
                     btnAddCar.setEnabled(true);

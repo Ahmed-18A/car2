@@ -11,18 +11,24 @@
         android:icon="@drawable/plus"
         android:title="Add"
         android:id="@+id/mnu_add"
-        android:orderInCategory="30"
+        android:orderInCategory="40"
         />
     <item
         android:icon="@drawable/dashboard"
         android:title="Dash"
         android:id="@+id/mnu_dash"
-        android:orderInCategory="40"
+        android:orderInCategory="50"
         />
     <item
         android:icon="@drawable/sedan"
         android:title="My Cars"
         android:id="@+id/mnu_myC"
-        android:orderInCategory="50"
+        android:orderInCategory="60"
+        />
+    <item
+        android:id="@+id/mnu_chats"
+        android:icon="@drawable/chat"
+        android:title="Chats"
+        android:orderInCategory="30"
         />
 </menu>

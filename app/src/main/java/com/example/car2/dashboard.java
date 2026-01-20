@@ -14,6 +14,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
+
 
 import java.util.ArrayList;
 
@@ -40,6 +42,8 @@ public class dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.getMenu().getItem(0).setChecked(false);
+        bottomNav.getMenu().setGroupCheckable(0, false, true);
 
         rvCars = findViewById(R.id.rvCars);
         cardSearch = findViewById(R.id.cardSearch);
@@ -72,31 +76,29 @@ public class dashboard extends AppCompatActivity {
                 startActivity(new Intent(dashboard.this, MyCars.class));
                 finish();
             }
+            if(item.getItemId() == R.id.mnu_chats) {
+                startActivity(new Intent(dashboard.this, ChatsActivity.class));
+                finish();
+            }
             return true;
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
-        // إلغاء أي تحديد موجود
-        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
-            bottomNav.getMenu().getItem(i).setChecked(false);
-        }
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
     // ================= FIREBASE =================
     private void loadCarsFromFirebase() {
+        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         db.collection("cars").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 allCarsList.clear();
                 shownCarsList.clear();
 
                 for (var doc : task.getResult()) {
+                    String ownerId = doc.getString("ownerId");
+                    if (ownerId != null && ownerId.equals(myId)) {
+                        continue;
+                    }
                     Car car = doc.toObject(Car.class);
+                    car.setId(doc.getId());
                     allCarsList.add(car);
                 }
 
@@ -107,6 +109,12 @@ public class dashboard extends AppCompatActivity {
                 Toast.makeText(this, "Failed to load cars", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    protected void onResume() {
+        super.onResume();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     // ================= RECEIVE SEARCH =================
@@ -129,7 +137,6 @@ public class dashboard extends AppCompatActivity {
             float minPrice = data.getFloatExtra("minPrice", 0);
             float maxPrice = data.getFloatExtra("maxPrice", Float.MAX_VALUE);
 
-            String testDate = data.getStringExtra("testDate");
             String year = data.getStringExtra("year");
             String horsePower = data.getStringExtra("horsePower");
             String engineCapacity = data.getStringExtra("engineCapacity");
@@ -137,8 +144,7 @@ public class dashboard extends AppCompatActivity {
             applyFilter(
                     region, carType, gearType, fuelType, color,
                     doors, seats, sunroof, disabled,
-                    minPrice, maxPrice,
-                    testDate, year, horsePower, engineCapacity
+                    minPrice, maxPrice, year, horsePower, engineCapacity
             );
         }
     }
@@ -147,8 +153,7 @@ public class dashboard extends AppCompatActivity {
     private void applyFilter(String region, String carType, String gearType,
                              String fuelType, String color, String doors,
                              String seats, String sunroof, String disabled,
-                             float minPrice, float maxPrice,
-                             String testDate, String year,
+                             float minPrice, float maxPrice, String year,
                              String horsePower, String engineCapacity) {
 
         shownCarsList.clear();
@@ -196,9 +201,13 @@ public class dashboard extends AppCompatActivity {
             // ===== Slider Price =====
             if (maxPrice == 500000) {
                 if (Float.parseFloat(car.getPrice()) < minPrice) continue;
-            } else {
+            }
+            else {
                 if (Float.parseFloat(car.getPrice()) < minPrice || Float.parseFloat(car.getPrice()) > maxPrice) continue;
             }
+            String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if (car.getOwnerId() != null && car.getOwnerId().equals(myId)) continue;
+
 
             // ===== إضافة السيارة للقائمة المعروضة =====
             shownCarsList.add(car);

@@ -11,9 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,12 +62,18 @@ public class profile extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
 
+    FrameLayout progressOverlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        progressOverlay = findViewById(R.id.progressOverlay);
+
         bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.getMenu().getItem(0).setChecked(false);
+        bottomNav.getMenu().setGroupCheckable(0, false, true);
 
         imageview = findViewById(R.id.profileImage);
         name = findViewById(R.id.name);
@@ -105,6 +113,10 @@ public class profile extends AppCompatActivity {
                 startActivity(new Intent(profile.this, MyCars.class));
                 finish();
             }
+            if(item.getItemId() == R.id.mnu_chats) {
+                startActivity(new Intent(profile.this, ChatsActivity.class));
+                finish();
+            }
             return true;
         });
 
@@ -116,18 +128,6 @@ public class profile extends AppCompatActivity {
 
         btnEditInfo.setOnClickListener(v -> showEditDialog());
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
-        // إلغاء أي تحديد موجود
-        for (int i = 0; i < bottomNav.getMenu().size(); i++) {
-            bottomNav.getMenu().getItem(i).setChecked(false);
-        }
-    }
-
 
     // ===================== PERMISSION =====================
     private void checkPermissionAndOpenGallery() {
@@ -278,6 +278,7 @@ public class profile extends AppCompatActivity {
 
     // ===================== UPLOAD =====================
     private void uploadToImgBB(Uri imageUri) {
+        progressOverlay.setVisibility(View.VISIBLE);
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
@@ -336,14 +337,24 @@ public class profile extends AppCompatActivity {
     // ===================== FIRESTORE =====================
     private void saveImageUrl(String url) {
         FirebaseUser user = auth.getCurrentUser();
-        if (user == null) return;
+        if (user == null) {
+            progressOverlay.setVisibility(View.GONE);
+            return;
+        }
 
         Map<String, Object> map = new HashMap<>();
         map.put("profileImage", url);
-
         db.collection("users")
                 .document(user.getUid())
-                .set(map, SetOptions.merge());
+                .set(map, SetOptions.merge())
+                .addOnSuccessListener(v -> {
+                    progressOverlay.setVisibility(View.GONE);
+                    Toast.makeText(profile.this, "تم حفظ الصورة", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    progressOverlay.setVisibility(View.GONE);
+                    Toast.makeText(profile.this, "فشل الحفظ", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void ensureUserDocumentExists() {

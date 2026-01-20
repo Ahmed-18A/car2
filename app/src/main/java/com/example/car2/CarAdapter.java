@@ -56,6 +56,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             } else {
                 Intent intent = new Intent(context, CarDetailsActivity.class);
                 intent.putExtra("car", car);
+                intent.putExtra("carId", car.getId());
                 context.startActivity(intent);
             }
 

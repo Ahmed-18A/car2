@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#dbf2ff"
+    android:layoutDirection="ltr"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/ImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/leftarrow"
+        android:background="@android:color/transparent" />
+
+    <include
+        android:layout_below="@+id/ImageButton"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="5dp"
+        android:id="@+id/chatHeader"
+        layout="@layout/chat_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/chatHeader"
+        android:id="@+id/rvMessages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/sendCard" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="5dp"
+        app:cardCornerRadius="7dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/sendCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/chat_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Message" />
+
+            <!-- زر الموقع (ImageView) -->
+            <ImageView
+                android:id="@+id/ivLocation"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/place"
+                android:scaleType="fitCenter"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- زر الإرسال -->
+            <ImageButton
+                android:id="@+id/btnSend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/send"
+                android:scaleType="fitCenter"
+                android:background="@null" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
