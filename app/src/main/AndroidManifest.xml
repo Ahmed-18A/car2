@@ -48,7 +48,8 @@
         </activity>
         <activity
             android:name=".sign_up"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".SearchActivity"
             android:exported="false" />

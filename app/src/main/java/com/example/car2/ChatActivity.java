@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatActivity extends BaseActivity {
+    private ImageView ivCall;
+    private String otherUserPhone;
 
     private RecyclerView rvMessages;
     private EditText etMessage;
@@ -77,6 +79,7 @@ public class ChatActivity extends BaseActivity {
 
         myId = FirebaseAuth.getInstance().getUid();
         sellerId = getIntent().getStringExtra("sellerId");
+        ivCall = findViewById(R.id.ivCall);
 
         if (myId == null || sellerId == null) {
             Toast.makeText(this, "Missing user data", Toast.LENGTH_SHORT).show();
@@ -96,7 +99,7 @@ public class ChatActivity extends BaseActivity {
         });
 
         // زر الموقع
-        ivLocation.setOnClickListener(v -> sendMyLocation());
+        ivLocation.setOnClickListener(v -> showSendLocationDialog());
 
         chatId = makeChatId(myId, sellerId);
         chatDocRef = db.collection("chats").document(chatId);
@@ -123,6 +126,8 @@ public class ChatActivity extends BaseActivity {
         });
 
         btnSend.setOnClickListener(v -> sendMessage());
+
+        ivCall.setOnClickListener(v -> openDialerWithOtherUserPhone());
     }
 
     private String makeChatId(String a, String b) {
@@ -254,8 +259,14 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-
-    // ===== (اختياري) Header data =====
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (messagesListener != null) {
+            messagesListener.remove();
+            messagesListener = null;
+        }
+    }
     private void loadHeaderUser() {
         db.collection("users").document(sellerId)
                 .get()
@@ -266,23 +277,41 @@ public class ChatActivity extends BaseActivity {
                         txtName.setText(name);
                     }
 
+                    otherUserPhone = doc.getString("phone");
+
                     if (imgUser != null) {
                         String img = doc.getString("profileImage");
                         if (img != null && !img.isEmpty()) {
-                            Glide.with(this).load(img).circleCrop().into(imgUser);
+                            Glide.with(this)
+                                    .load(img)
+                                    .circleCrop()
+                                    .override(300, 300)
+                                    .into(imgUser);
                         } else {
                             imgUser.setImageResource(R.drawable.user2);
                         }
                     }
                 });
+
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (messagesListener != null) {
-            messagesListener.remove();
-            messagesListener = null;
+    private void openDialerWithOtherUserPhone() {
+        if (otherUserPhone == null || otherUserPhone.trim().isEmpty()) {
+            Toast.makeText(this, "Phone number not available", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(android.net.Uri.parse("tel:" + otherUserPhone.trim()));
+        startActivity(intent);
+    }
+
+    private void showSendLocationDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Send location")
+                .setMessage("Do you want to send your current location?")
+                .setPositiveButton("Send", (dialog, which) -> sendMyLocation())
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }

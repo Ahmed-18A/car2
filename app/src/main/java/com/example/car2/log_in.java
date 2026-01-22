@@ -74,11 +74,29 @@ public class log_in extends BaseActivity {
                                     Intent intent = new Intent(log_in.this, profile.class);
                                     startActivity(intent);
                                     finish();
-                                } else {
-                                    Toast.makeText(log_in.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                    Log.e("FirebaseAuth", "Login failed", task.getException());
                                 }
+                                else {
+                                    Exception ex = task.getException();
+                                    String msg = "Login failed";
+                                    if (ex instanceof com.google.firebase.auth.FirebaseAuthInvalidUserException) {
+                                        msg = "No account found for this email";
+                                    }
+                                    else
+                                        if (ex instanceof com.google.firebase.auth.FirebaseAuthInvalidCredentialsException) {
+                                            msg = "Wrong email or password";
+                                        }
+                                        else
+                                            if (ex instanceof com.google.firebase.FirebaseNetworkException) {
+                                                msg = "No internet connection";
+                                            }
+                                            else
+                                                if (ex != null && ex.getMessage() != null && !ex.getMessage().trim().isEmpty()) {
+                                                    msg = ex.getMessage();
+                                                }
+                                Toast.makeText(log_in.this, msg, Toast.LENGTH_LONG).show();
                             }
+
+                        }
                         });
             }
         });

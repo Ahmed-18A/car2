@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/imgUser"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:src="@drawable/user2"
             android:scaleType="centerCrop"
             android:layout_alignParentEnd="true"

@@ -430,9 +430,16 @@ public class profile extends BaseActivity {
 
         btnCancel.setOnClickListener(v -> editDialog.dismiss());
 
-        btnSave.setOnClickListener(v -> {
+        btnSave.setOnClickListener(v -> { 
             FirebaseUser user = auth.getCurrentUser();
             if (user == null) return;
+
+            String newphone = editPhone.getText().toString().trim();
+
+            if (newphone.length() != 10) {
+                Toast.makeText(profile.this, "Phone number must be 10 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             db.collection("users")
                     .document(user.getUid())

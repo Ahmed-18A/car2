@@ -46,6 +46,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
             Glide.with(context)
                     .load(c.otherUserImage)
                     .circleCrop()
+                    .override(300, 300)
                     .placeholder(R.drawable.user2)
                     .error(R.drawable.user2)
                     .into(h.imgUser);
