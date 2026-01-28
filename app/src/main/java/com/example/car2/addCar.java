@@ -46,6 +46,7 @@ public class addCar extends BaseActivity  {
 
     private static final int REQUEST_GALLERY = 101;
     private static final String IMGBB_API_KEY = "3c6e38b46c0548e23b364cf83954877f";
+    private static final int REQ_PAYMENT = 202;
 
     FrameLayout progressOverlay;
 
@@ -59,8 +60,6 @@ public class addCar extends BaseActivity  {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-
-    private boolean isUploading = false; // لمنع الضغط المتكرر
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,13 +130,13 @@ public class addCar extends BaseActivity  {
                 return;
             }
 
-            isUploading = true;
-            btnAddCar.setEnabled(false);
+            double price = Double.parseDouble(etPrice.getText().toString().trim());
 
-            progressOverlay.setVisibility(View.VISIBLE);
-            uploadAllImagesAndSaveCar();
+            Intent i = new Intent(addCar.this, payment.class);
+            i.putExtra(payment.EXTRA_PRICE, price);
+            startActivityForResult(i, REQ_PAYMENT);
+
         });
-
 
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.mnu_profile) {
@@ -191,35 +190,10 @@ public class addCar extends BaseActivity  {
         startActivityForResult(intent, REQUEST_GALLERY);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) return;
-
-        if (requestCode == REQUEST_GALLERY && data != null) {
-            allImages.clear();
-            if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                if (count != 5) {
-                    Toast.makeText(this, "You must select exactly 5 images", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for (int i = 0; i < count; i++) {
-                    allImages.add(data.getClipData().getItemAt(i).getUri());
-                }
-            } else if (data.getData() != null) {
-                allImages.add(data.getData());
-            }
-            Toast.makeText(this, allImages.size() + " images selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     // ===== UPLOAD IMAGES =====
     private void uploadAllImagesAndSaveCar() {
         if (allImages.size() != 5) {
             Toast.makeText(this, "You must select exactly 5 images", Toast.LENGTH_SHORT).show();
-            btnAddCar.setEnabled(true);
-            isUploading = false;
             return;
         }
 
@@ -260,8 +234,6 @@ public class addCar extends BaseActivity  {
                         runOnUiThread(() -> {
                             progressOverlay.setVisibility(View.GONE);
                             Toast.makeText(addCar.this, "Upload failed", Toast.LENGTH_SHORT).show();
-                            btnAddCar.setEnabled(true);
-                            isUploading = false;
                         });
                     }
 
@@ -277,8 +249,6 @@ public class addCar extends BaseActivity  {
                             runOnUiThread(() -> {
                                 progressOverlay.setVisibility(View.GONE);
                                 Toast.makeText(addCar.this, "Upload error", Toast.LENGTH_SHORT).show();
-                                btnAddCar.setEnabled(true);
-                                isUploading = false;
                             });
                         }
                     }
@@ -287,8 +257,6 @@ public class addCar extends BaseActivity  {
             } catch (Exception e) {
                 runOnUiThread(() -> {
                     Toast.makeText(addCar.this, "Image error", Toast.LENGTH_SHORT).show();
-                    btnAddCar.setEnabled(true);
-                    isUploading = false;
                 });
             }
         }).start();
@@ -343,16 +311,54 @@ public class addCar extends BaseActivity  {
                 .addOnFailureListener(e -> {
                     progressOverlay.setVisibility(View.GONE);
                     Toast.makeText(this, "Failed to add car", Toast.LENGTH_SHORT).show();
-                    btnAddCar.setEnabled(true);
-                    isUploading = false;
                 });
     }
     public static void hideKeyboard(Activity activity) {
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View view = activity.getWindow().getDecorView();
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getWindow().getDecorView().clearFocus();
+        hideKeyboard(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        // ====== Gallery ======
+        if (requestCode == REQUEST_GALLERY && data != null) {
+            allImages.clear();
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                if (count != 5) {
+                    Toast.makeText(this, "You must select exactly 5 images", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for (int i = 0; i < count; i++) {
+                    allImages.add(data.getClipData().getItemAt(i).getUri());
+                }
+            } else if (data.getData() != null) {
+                allImages.add(data.getData());
+            }
+            Toast.makeText(this, allImages.size() + " images selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ====== Payment OK ======
+        if (requestCode == REQ_PAYMENT) {
+            progressOverlay.setVisibility(View.VISIBLE);
+            uploadAllImagesAndSaveCar();
+        }
+    }
+
 }

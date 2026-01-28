@@ -24,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Car2">
         <activity
+            android:name=".payment"
+            android:exported="false" />
+        <activity
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
@@ -43,13 +46,14 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".sign_up"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
