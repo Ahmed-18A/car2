@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatsActivity extends BaseActivity {
 
@@ -28,8 +28,7 @@ public class ChatsActivity extends BaseActivity {
 
     private ListenerRegistration chatsListener;
 
-    // ✅ يمنع التكرار نهائياً
-    private final java.util.HashMap<String, ChatItem> chatsMap = new java.util.HashMap<>();
+    private final HashMap<String, ChatItem> chatsMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +80,21 @@ public class ChatsActivity extends BaseActivity {
     }
 
     private void startChatsListener() {
-        // ✅ سكّر القديم
         if (chatsListener != null) {
             chatsListener.remove();
             chatsListener = null;
         }
 
-        // ✅ نظّف البيانات القديمة
         chatsMap.clear();
         chats.clear();
         adapter.notifyDataSetChanged();
 
         chatsListener = db.collection("chats")
                 .whereArrayContains("users", myId)
-                .orderBy("lastMessageTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .addSnapshotListener((snap, e) -> {
-                    if (e != null || snap == null) return;
+                    if (e != null) return;
+                    if (snap == null) return;
 
-                    // ✅ خزّن حسب chatId (بدون تكرار)
                     for (var doc : snap.getDocuments()) {
 
                         ArrayList<String> users = (ArrayList<String>) doc.get("users");
@@ -121,12 +117,8 @@ public class ChatsActivity extends BaseActivity {
                         item.chatId = chatId;
                         item.otherUserId = otherId;
 
-                        // (اختياري) إذا بدك تستخدمهم بالـ adapter لاحقاً:
-                        // item.lastMessage = doc.getString("lastMessage");
-
                         chatsMap.put(chatId, item);
 
-                        // حمّل بيانات المستخدم مرة واحدة
                         if (item.otherUserName == null || item.otherUserName.trim().isEmpty()) {
                             loadUserDataIntoMap(chatId, otherId);
                         }
@@ -152,9 +144,7 @@ public class ChatsActivity extends BaseActivity {
                     chatsMap.put(chatId, item);
                     refreshChatsListFromMap();
                 })
-                .addOnFailureListener(err -> {
-                    // صامت
-                });
+                .addOnFailureListener(err -> {});
     }
 
     private void refreshChatsListFromMap() {

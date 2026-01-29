@@ -28,8 +28,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context)
-                .inflate(R.layout.chat_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.chat_item, parent, false);
         return new VH(v);
     }
 
@@ -37,10 +36,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
     public void onBindViewHolder(@NonNull VH h, int position) {
         ChatItem c = list.get(position);
 
-        // ===== الاسم =====
-        h.txtName.setText(
-                c.otherUserName != null ? c.otherUserName : "User"
-        );
+        h.txtName.setText(c.otherUserName != null ? c.otherUserName : "User");
 
         if (c.otherUserImage != null && !c.otherUserImage.trim().isEmpty()) {
             Glide.with(context)
@@ -66,7 +62,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
         return list.size();
     }
 
-    // ================= ViewHolder =================
     static class VH extends RecyclerView.ViewHolder {
         ImageView imgUser;
         TextView txtName;

@@ -30,7 +30,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
