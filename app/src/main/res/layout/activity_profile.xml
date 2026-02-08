@@ -245,16 +245,29 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#dbf2ff"
-        app:menu="@menu/my_menu"
-        android:id="@+id/bottom_navigation"
-        app:labelVisibilityMode="labeled"
-        app:itemPaddingTop="17dp"
-        />
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/black" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dbf2ff"
+            app:menu="@menu/my_menu"
+            android:id="@+id/bottom_navigation"
+            app:labelVisibilityMode="labeled"
+            app:itemPaddingTop="17dp"
+            />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/progressOverlay"

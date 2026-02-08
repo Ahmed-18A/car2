@@ -9,33 +9,34 @@
     android:layoutDirection="ltr">
 
     <ScrollView
-        android:layout_above="@id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/view">
 
         <LinearLayout
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <androidx.cardview.widget.CardView
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp">
+
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
                         android:text="Location"
-                        android:textSize="18sp"
-                        android:paddingBottom="5dp"/>
+                        android:textSize="18sp" />
 
                     <!-- Spinner -->
                     <Spinner
@@ -43,140 +44,140 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/regions"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Car Type"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <!-- Car Type -->
                     <Spinner
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
                         android:id="@+id/spCarType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/car_types" />
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/car_types"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Gear Type"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <!-- Gear Type -->
                     <Spinner
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
                         android:id="@+id/spGearType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/gear_types" />
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/gear_types"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Fuel Type"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <!-- Fuel Type -->
                     <Spinner
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
                         android:id="@+id/spFuelType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/fuel_types" />
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/fuel_types"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Color"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <!-- Color -->
                     <Spinner
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
                         android:id="@+id/spColor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/colors"/>
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/colors"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,168 +205,175 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Seats"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <!-- Seats -->
                     <Spinner
-                        android:layout_marginBottom="10dp"
-                        android:textSize="18sp"
                         android:id="@+id/spSeats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/seats_count" />
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array/seats_count"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <!-- Test Date -->
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp">
 
-                <TextView
-                    android:layout_marginStart="15dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Test Date"
-                    android:textSize="18sp"/>
-
+                <!-- Test Date -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/etTestDatemm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:layout_marginEnd="5dp"
-                        android:hint="MM"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="Test Date"
+                        android:textSize="18sp" />
 
-                    <EditText
-                        android:id="@+id/etTestDateyy"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:hint="YY"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:layout_marginEnd="20dp"/>
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etTestDatemm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:hint="MM"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/etTestDateyy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:hint="YY"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Price -->
             <EditText
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:inputType="number"
                 android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:hint="Price"
+                android:inputType="number"
                 android:maxLength="7"
-                android:hint="Price" />
+                android:textSize="18sp" />
 
             <!-- Year -->
             <EditText
-                android:maxLength="4"
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:inputType="number"
                 android:id="@+id/etYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Year" />
+                android:layout_marginBottom="10dp"
+                android:hint="Year"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textSize="18sp" />
 
             <!-- Horse Power -->
             <EditText
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:inputType="number"
                 android:id="@+id/etHorsePower"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Horse Power" />
+                android:layout_marginBottom="10dp"
+                android:hint="Horse Power"
+                android:inputType="number"
+                android:textSize="18sp" />
 
             <!-- Engine Capacity -->
             <EditText
-                android:layout_marginBottom="10dp"
-                android:textSize="18sp"
-                android:inputType="number"
                 android:id="@+id/etEngineCapacity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Engine Capacity" />
+                android:layout_marginBottom="10dp"
+                android:hint="Engine Capacity"
+                android:inputType="number"
+                android:textSize="18sp" />
 
             <!-- Sunroof -->
             <CheckBox
-                android:textSize="18sp"
                 android:id="@+id/spSunroof"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sunroof" />
+                android:text="Sunroof"
+                android:textSize="18sp" />
 
             <!-- Disabled Accessible -->
             <CheckBox
-                android:textSize="18sp"
                 android:id="@+id/spDisabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Disabled Accessible" />
+                android:text="Disabled Accessible"
+                android:textSize="18sp" />
 
             <Button
-                android:backgroundTint="#a9f2fd"
-                android:textColor="@color/black"
-                android:textSize="18sp"
                 android:id="@+id/btnSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#a9f2fd"
                 android:text="Add 5 images"
-                android:layout_marginTop="10dp" />
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <Button
-                android:backgroundTint="#a9f2fd"
-                android:textColor="@color/black"
-                android:textSize="18sp"
                 android:id="@+id/btnAddCar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apply Filter"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#a9f2fd"
+                android:text="Sell Car"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/black"
+        android:layout_above="@id/bottom_navigation"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
