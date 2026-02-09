@@ -25,7 +25,7 @@ public class payment extends AppCompatActivity {
     private Button btnClose, btnPay;
 
     private double carPrice = 0.0;
-    private double fee = 0.0;
+    private int fee = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,10 @@ public class payment extends AppCompatActivity {
         spCountry = findViewById(R.id.spCountry);
 
         carPrice = getIntent().getDoubleExtra(EXTRA_PRICE, 0.0);
-        fee = carPrice * 0.035;
 
-        DecimalFormat df = new DecimalFormat("0.00");
-        btnPay.setText("Pay " + df.format(fee)+"$");
+        fee=(int)Math.round(carPrice*0.005);
+
+        btnPay.setText("Pay " + fee +"$");
 
         btnClose.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
