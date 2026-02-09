@@ -62,7 +62,6 @@ public class ChatActivity extends BaseActivity {
     private final ArrayList<String> messageIds = new ArrayList<>();
     private ListenerRegistration messagesListener;
 
-    // Header (اختياري)
     private ImageView imgUser;
     private TextView txtName;
 
@@ -198,54 +197,76 @@ public class ChatActivity extends BaseActivity {
                     for (DocumentChange dc : snap.getDocumentChanges()) {
                         String id = dc.getDocument().getId();
 
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-                            if (messageIds.contains(id)) continue;
+                        try {
+                            Message m = dc.getDocument().toObject(Message.class);
 
-                            try {
-                                Message m = dc.getDocument().toObject(Message.class);
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                if (messageIds.contains(id)) continue;
+
                                 if (m != null) {
                                     messages.add(m);
                                     messageIds.add(id);
-
                                     messagesAdapter.notifyItemInserted(messages.size() - 1);
                                 }
-                            } catch (Exception ex) {
-                                android.util.Log.e("CHAT_PARSE", "Bad message doc: " + id, ex);
+
+                            } else if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                                int idx = messageIds.indexOf(id);
+                                if (m != null) {
+                                    if (idx != -1) {
+                                        messages.set(idx, m);
+                                        messagesAdapter.notifyItemChanged(idx);
+                                    } else {
+                                        // لو أول مرة ما انضافت كـ ADDED لأي سبب، أضفها هون
+                                        messages.add(m);
+                                        messageIds.add(id);
+                                        messagesAdapter.notifyItemInserted(messages.size() - 1);
+                                    }
+                                }
+
+                            } else if (dc.getType() == DocumentChange.Type.REMOVED) {
+                                int idx = messageIds.indexOf(id);
+                                if (idx != -1) {
+                                    messageIds.remove(idx);
+                                    messages.remove(idx);
+                                    messagesAdapter.notifyItemRemoved(idx);
+                                }
                             }
+
+                        } catch (Exception ex) {
+                            android.util.Log.e("CHAT_PARSE", "Bad message doc: " + id, ex);
                         }
                     }
 
-                    // ✅ أول مرة فقط: روح لأول رسالة جديدة
                     if (!firstSnapshotHandled) {
                         firstSnapshotHandled = true;
 
-                        int firstUnreadPos = -1;
+                        int targetPos = -1;
 
+                        // روح لأول رسالة غير مقروءة فقط إذا عندك lastRead مضبوط
                         if (myLastReadBeforeOpen != null) {
                             for (int i = 0; i < messages.size(); i++) {
                                 Timestamp t = messages.get(i).getTimestamp();
                                 if (t != null && t.compareTo(myLastReadBeforeOpen) > 0) {
-                                    firstUnreadPos = i;
+                                    targetPos = i;
                                     break;
                                 }
                             }
-                        } else {
-                            if (!messages.isEmpty()) firstUnreadPos = 0;
                         }
 
-                        if (firstUnreadPos != -1) {
-                            if (lm != null) lm.setStackFromEnd(false);
-                            rvMessages.scrollToPosition(firstUnreadPos);
-                        } else {
-                            if (lm != null) lm.setStackFromEnd(true);
-                            if (!messages.isEmpty()) rvMessages.scrollToPosition(messages.size() - 1);
+                        // إذا ما لقينا unread -> انزل لآخر رسالة (مش للأولى)
+                        if (targetPos == -1 && !messages.isEmpty()) {
+                            targetPos = messages.size() - 1;
                         }
 
-                        // ✅ بعد ما نوقف بالمكان الصحيح: علّم الشات مقروء
+                        // دايمًا خليه ينزل لتحت
+                        if (lm != null) lm.setStackFromEnd(true);
+
+                        if (targetPos != -1) {
+                            rvMessages.scrollToPosition(targetPos);
+                        }
+
                         markChatAsRead();
-
                     } else {
-                        // بعدها: إذا رسائل جديدة وأنت فاتح الشات، نزل لآخر
                         if (!messages.isEmpty()) rvMessages.scrollToPosition(messages.size() - 1);
                     }
                 });
@@ -257,47 +278,38 @@ public class ChatActivity extends BaseActivity {
         chatDocRef.set(update, SetOptions.merge());
     }
 
-    /**
-     * ✅ الإرسال: يحدث وثيقة الشات + lastRead للمرسل + lastSenderId
-     */
     private void sendMessage() {
         String text = etMessage.getText().toString().trim();
         if (text.isEmpty()) return;
 
         Timestamp now = Timestamp.now();
 
-        Map<String, Object> chat = new HashMap<>();
-        chat.put("users", Arrays.asList(myId, sellerId));
-        chat.put("lastMessage", text);
-        chat.put("lastMessageTime", now);
-        chat.put("lastSenderId", myId);
+        // مرجع رسالة جديد (ID ثابت)
+        DocumentReference msgRef = chatDocRef.collection("messages").document();
 
-        // ✅ المرسل قرأ لحد الآن
-        Map<String, Object> lastReadMap = new HashMap<>();
-        lastReadMap.put(myId, now);
-        chat.put("lastRead", lastReadMap);
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("senderId", myId);
+        msg.put("text", text);
+        msg.put("timestamp", now);
 
-        chatDocRef.set(chat, SetOptions.merge())
-                .addOnSuccessListener(v -> {
+        Map<String, Object> chatUpdate = new HashMap<>();
+        chatUpdate.put("users", Arrays.asList(myId, sellerId));
+        chatUpdate.put("lastMessage", text);
+        chatUpdate.put("lastMessageTime", now);
+        chatUpdate.put("lastSenderId", myId);
+        chatUpdate.put("lastRead." + myId, now);
 
-                    Map<String, Object> msg = new HashMap<>();
-                    msg.put("senderId", myId);
-                    msg.put("text", text);
-                    msg.put("timestamp", now);
-                    msg.put("serverTime", FieldValue.serverTimestamp());
+        // امسح الحقل فورًا من UI (حتى لو الشبكة بطيئة)
+        etMessage.setText("");
 
-                    chatDocRef.collection("messages")
-                            .add(msg)
-                            .addOnSuccessListener(r -> etMessage.setText(""))
-                            .addOnFailureListener(e ->
-                                    Toast.makeText(this, "فشل إرسال الرسالة", Toast.LENGTH_LONG).show()
-                            );
-
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "فشل إنشاء الشات", Toast.LENGTH_LONG).show()
-                );
+        db.runBatch(batch -> {
+            batch.set(chatDocRef, chatUpdate, SetOptions.merge());
+            batch.set(msgRef, msg);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "فشل إرسال الرسالة: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        });
     }
+
 
     private void sendMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

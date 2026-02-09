@@ -77,7 +77,6 @@ public class addCar extends BaseActivity  {
 
         progressOverlay = findViewById(R.id.progressOverlay);
 
-        // ===== INIT VIEWS =====
         spLocation = findViewById(R.id.spLocation);
         spCarType = findViewById(R.id.spCarType);
         spGearType = findViewById(R.id.spGearType);
@@ -96,16 +95,14 @@ public class addCar extends BaseActivity  {
         cbSunroof = findViewById(R.id.spSunroof);
         cbDisabled = findViewById(R.id.spDisabled);
 
-        btnAddImages = findViewById(R.id.btnSearch); // زر Add 5 images
-        btnAddCar = findViewById(R.id.btnAddCar); // زر Apply Filter كزر لإضافة السيارة
+        btnAddImages = findViewById(R.id.btnSearch);
+        btnAddCar = findViewById(R.id.btnAddCar);
 
-        // ===== SELECT IMAGES =====
         btnAddImages.setOnClickListener(v -> {
             checkPermissionAndOpenGallery();
             hideKeyboard(this);
         });
 
-        // ===== ADD CAR =====
         btnAddCar.setOnClickListener(v -> {
 
             hideKeyboard(this);
@@ -268,7 +265,6 @@ public class addCar extends BaseActivity  {
 
         Map<String, Object> car = new HashMap<>();
 
-        // ===== متغيرات مستقلة لكل صفة =====
         String location = spLocation.getSelectedItem().toString();
         String gearType = spGearType.getSelectedItem().toString();
         String fuelType = spFuelType.getSelectedItem().toString();

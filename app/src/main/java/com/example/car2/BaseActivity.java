@@ -33,7 +33,6 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
-    // ================== Notification Globals ==================
     private static final String CHANNEL_ID = "car2_chat_foreground";
     private static final int REQ_NOTIF = 900;
 
