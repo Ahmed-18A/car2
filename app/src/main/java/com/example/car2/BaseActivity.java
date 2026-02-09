@@ -28,6 +28,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -40,46 +47,35 @@ public class BaseActivity extends AppCompatActivity {
     private static final String KEY_LAST_NOTIF_PREFIX = "last_notif_";
 
     private static ListenerRegistration globalChatsListener = null;
-    private static int startedActivities = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    // ✅ شغّل Listener عالمي أول ما التطبيق يدخل Foreground (أول Activity)
     @Override
     protected void onStart() {
         super.onStart();
-        startedActivities++;
+
+        // ✅ قفل كامل بدون إنترنت
+        if (!isInternetAvailable() && !getClass().equals(NoInternet.class)) {
+            Intent i = new Intent(this, NoInternet.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+            return;
+        }
 
         createNotifChannel();
         requestNotifPermissionIfNeeded();
-
-        if (startedActivities == 1) {
-            startGlobalChatListener();
-        }
+        startGlobalChatListener();
     }
-
-    // ✅ سكّر Listener لما التطبيق يطلع Background (آخر Activity)
-    @Override
-    protected void onStop() {
-        super.onStop();
-        startedActivities--;
-
-        if (startedActivities <= 0) {
-            startedActivities = 0;
-            stopGlobalChatListener();
-        }
-    }
-
     private void startGlobalChatListener() {
         String myId = FirebaseAuth.getInstance().getUid();
         if (myId == null) return;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        stopGlobalChatListener(); // احتياط
+        stopGlobalChatListener();
 
         globalChatsListener = db.collection("chats")
                 .whereArrayContains("users", myId)
@@ -102,7 +98,6 @@ public class BaseActivity extends AppCompatActivity {
                         // ✅ إذا أنا داخل نفس الشات -> لا إشعار
                         if (ChatActivity.OPEN_CHAT_ID != null && ChatActivity.OPEN_CHAT_ID.equals(chatId)) continue;
 
-                        // ✅ lastRead.myId
                         Timestamp myLastRead = null;
                         Object lrObj = doc.get("lastRead");
                         if (lrObj instanceof Map) {
@@ -267,4 +262,29 @@ public class BaseActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) applySystemBars();
     }
+
+    private boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = cm.getActiveNetwork();
+            if (network == null) return false;
+
+            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+            if (caps == null) return false;
+
+            boolean hasTransport =
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                            caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+
+            // NOTE: هذا يعني “في اتصال شبكة”، مش ضمان 100% أنه في إنترنت فعلي
+            return hasTransport;
+        } else {
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            return info != null && info.isConnected();
+        }
+    }
+
 }

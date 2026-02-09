@@ -26,7 +26,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -42,13 +41,13 @@ public class ChatActivity extends BaseActivity {
     // ✅ لمنع نوتيفيكيشن إذا أنت داخل نفس الشات
     public static volatile String OPEN_CHAT_ID = null;
 
-    private ImageView ivCall;
+    private ImageView btnCall;
     private String otherUserPhone;
 
     private RecyclerView rvMessages;
     private EditText etMessage;
     private ImageButton btnSend, btnBack;
-    private ImageView ivLocation;
+    private ImageView btnLocation;
 
     private FirebaseFirestore db;
     private DocumentReference chatDocRef;
@@ -65,7 +64,6 @@ public class ChatActivity extends BaseActivity {
     private ImageView imgUser;
     private TextView txtName;
 
-    // Location
     private static final int REQ_LOCATION = 500;
     private FusedLocationProviderClient fusedClient;
 
@@ -84,8 +82,8 @@ public class ChatActivity extends BaseActivity {
         etMessage = findViewById(R.id.etMessage);
         btnSend = findViewById(R.id.btnSend);
         btnBack = findViewById(R.id.ImageButton);
-        ivLocation = findViewById(R.id.ivLocation);
-        ivCall = findViewById(R.id.ivCall);
+        btnLocation = findViewById(R.id.ivLocation);
+        btnCall = findViewById(R.id.ivCall);
 
         db = FirebaseFirestore.getInstance();
         fusedClient = LocationServices.getFusedLocationProviderClient(this);
@@ -99,19 +97,13 @@ public class ChatActivity extends BaseActivity {
             return;
         }
 
-        if (myId.equals(sellerId)) {
-            Toast.makeText(this, "ما بصير تحكي مع حالك", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
         btnBack.setOnClickListener(v -> {
             startActivity(new Intent(ChatActivity.this, ChatsActivity.class));
             finish();
         });
 
-        ivLocation.setOnClickListener(v -> showSendLocationDialog());
-        ivCall.setOnClickListener(v -> openDialerWithOtherUserPhone());
+        btnLocation.setOnClickListener(v -> showSendLocationDialog());
+        btnCall.setOnClickListener(v -> openDialerWithOtherUserPhone());
 
         chatId = makeChatId(myId, sellerId);
         chatDocRef = db.collection("chats").document(chatId);
@@ -124,7 +116,6 @@ public class ChatActivity extends BaseActivity {
         messagesAdapter = new MessagesAdapter(messages, myId);
         rvMessages.setAdapter(messagesAdapter);
 
-        // ===== (اختياري) هيدر =====
         try {
             imgUser = findViewById(R.id.imgUser);
             txtName = findViewById(R.id.txtName);

@@ -396,7 +396,8 @@ public class profile extends BaseActivity {
 
                     String img = doc.getString("profileImage");
                     if (img != null && !img.isEmpty()) {
-                        Glide.with(this).load(img).into(imageview);
+                        if (isFinishing() || isDestroyed()) return;
+                        Glide.with(profile.this).load(img).into(imageview);
                     }
                 });
     }
