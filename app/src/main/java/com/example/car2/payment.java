@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-public class payment extends AppCompatActivity {
+public class payment extends BaseActivity {
 
     public static final String EXTRA_PRICE = "extra_price";
     public static final String EXTRA_FEE = "extra_fee";
