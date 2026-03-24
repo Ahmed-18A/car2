@@ -46,7 +46,12 @@ public class payment extends BaseActivity {
 
         fee=(int)Math.round(carPrice*0.005);
 
+        if (fee==0){
+            fee++;
+        }
+
         btnPay.setText("Pay " + fee +"$");
+
 
         btnClose.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);

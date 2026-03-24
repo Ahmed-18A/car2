@@ -1,8 +1,8 @@
-// ======================= ChatActivity.java =======================
 package com.example.car2;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -20,8 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.*;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
@@ -38,7 +39,6 @@ import java.util.Map;
 
 public class ChatActivity extends BaseActivity {
 
-    // ✅ لمنع نوتيفيكيشن إذا أنت داخل نفس الشات
     public static volatile String OPEN_CHAT_ID = null;
 
     private ImageView btnCall;
@@ -65,9 +65,10 @@ public class ChatActivity extends BaseActivity {
     private TextView txtName;
 
     private static final int REQ_LOCATION = 500;
+    private static final int REQ_GPS = 1001;
+
     private FusedLocationProviderClient fusedClient;
 
-    // ✅ unread logic
     private Timestamp myLastReadBeforeOpen = null;
     private boolean firstSnapshotHandled = false;
 
@@ -108,7 +109,6 @@ public class ChatActivity extends BaseActivity {
         chatId = makeChatId(myId, sellerId);
         chatDocRef = db.collection("chats").document(chatId);
 
-        // ===== RecyclerView =====
         LinearLayoutManager lm = new LinearLayoutManager(this);
         lm.setStackFromEnd(true);
         rvMessages.setLayoutManager(lm);
@@ -124,7 +124,6 @@ public class ChatActivity extends BaseActivity {
 
         btnSend.setEnabled(true);
 
-        // ✅ اقرأ lastRead قبل فتح الرسائل
         chatDocRef.get().addOnSuccessListener(doc -> {
             if (doc != null && doc.exists()) {
                 Object lrObj = doc.get("lastRead");
@@ -138,7 +137,6 @@ public class ChatActivity extends BaseActivity {
             }
         });
 
-        // ✅ ابدأ listener مباشرة
         startMessagesListenerRealtime();
 
         btnSend.setOnClickListener(v -> sendMessage());
@@ -160,9 +158,6 @@ public class ChatActivity extends BaseActivity {
         return (a.compareTo(b) < 0) ? a + "_" + b : b + "_" + a;
     }
 
-    /**
-     * ✅ Listener محسّن + يوقف عند أول رسالة جديدة
-     */
     private void startMessagesListenerRealtime() {
         if (messagesListener != null) {
             messagesListener.remove();
@@ -207,7 +202,6 @@ public class ChatActivity extends BaseActivity {
                                         messages.set(idx, m);
                                         messagesAdapter.notifyItemChanged(idx);
                                     } else {
-                                        // لو أول مرة ما انضافت كـ ADDED لأي سبب، أضفها هون
                                         messages.add(m);
                                         messageIds.add(id);
                                         messagesAdapter.notifyItemInserted(messages.size() - 1);
@@ -233,7 +227,6 @@ public class ChatActivity extends BaseActivity {
 
                         int targetPos = -1;
 
-                        // روح لأول رسالة غير مقروءة فقط إذا عندك lastRead مضبوط
                         if (myLastReadBeforeOpen != null) {
                             for (int i = 0; i < messages.size(); i++) {
                                 Timestamp t = messages.get(i).getTimestamp();
@@ -244,12 +237,10 @@ public class ChatActivity extends BaseActivity {
                             }
                         }
 
-                        // إذا ما لقينا unread -> انزل لآخر رسالة (مش للأولى)
                         if (targetPos == -1 && !messages.isEmpty()) {
                             targetPos = messages.size() - 1;
                         }
 
-                        // دايمًا خليه ينزل لتحت
                         if (lm != null) lm.setStackFromEnd(true);
 
                         if (targetPos != -1) {
@@ -275,7 +266,6 @@ public class ChatActivity extends BaseActivity {
 
         Timestamp now = Timestamp.now();
 
-        // مرجع رسالة جديد (ID ثابت)
         DocumentReference msgRef = chatDocRef.collection("messages").document();
 
         Map<String, Object> msg = new HashMap<>();
@@ -290,7 +280,6 @@ public class ChatActivity extends BaseActivity {
         chatUpdate.put("lastSenderId", myId);
         chatUpdate.put("lastRead." + myId, now);
 
-        // امسح الحقل فورًا من UI (حتى لو الشبكة بطيئة)
         etMessage.setText("");
 
         db.runBatch(batch -> {
@@ -300,7 +289,6 @@ public class ChatActivity extends BaseActivity {
             Toast.makeText(this, "فشل إرسال الرسالة: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
     }
-
 
     private void sendMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -316,21 +304,66 @@ public class ChatActivity extends BaseActivity {
 
         fusedClient.getLastLocation()
                 .addOnSuccessListener(location -> {
-                    if (location == null) {
-                        Toast.makeText(this, "شغّل GPS وجرب مرة ثانية", Toast.LENGTH_SHORT).show();
-                        return;
+                    if (location != null) {
+                        // لو فيه موقع مباشرة
+                        sendLocationMessage(location.getLatitude(), location.getLongitude());
+                    } else {
+                        // لو GPS مطفي أو ما فيه fix، نطلب من المستخدم تشغيله
+                        LocationRequest request = LocationRequest.create()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(1000)
+                                .setFastestInterval(500)
+                                .setNumUpdates(1);
+
+                        LocationSettingsRequest.Builder builder =
+                                new LocationSettingsRequest.Builder().addLocationRequest(request);
+
+                        SettingsClient client = LocationServices.getSettingsClient(this);
+                        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+                        task.addOnSuccessListener(response -> {
+                            // GPS شغال، نطلب الموقع مباشرة
+                            fusedClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null)
+                                    .addOnSuccessListener(loc -> {
+                                        if (loc != null) sendLocationMessage(loc.getLatitude(), loc.getLongitude());
+                                        else Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
+                                    });
+                        });
+
+                        task.addOnFailureListener(e -> {
+                            if (e instanceof ResolvableApiException) {
+                                try {
+                                    ((ResolvableApiException) e).startResolutionForResult(ChatActivity.this, REQ_GPS);
+                                } catch (IntentSender.SendIntentException ex) {
+                                    ex.printStackTrace();
+                                }
+                            } else {
+                                Toast.makeText(this, "Cannot access location", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-
-                    double lat = location.getLatitude();
-                    double lng = location.getLongitude();
-                    String mapLink = "https://maps.google.com/?q=" + lat + "," + lng;
-
-                    etMessage.setText(mapLink);
-                    sendMessage();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Location error", Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    private void sendLocationMessage(double lat, double lng) {
+        String mapLink = "https://maps.google.com/?q=" + lat + "," + lng;
+        etMessage.setText(mapLink);
+        sendMessage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_GPS) {
+            if (resultCode == RESULT_OK) {
+                sendMyLocation();
+            } else {
+                Toast.makeText(this, "Permission error", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -340,8 +373,6 @@ public class ChatActivity extends BaseActivity {
         if (requestCode == REQ_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 sendMyLocation();
-            } else {
-                Toast.makeText(this, "لازم تسمح بالموقع عشان تبعت موقعك", Toast.LENGTH_SHORT).show();
             }
         }
     }

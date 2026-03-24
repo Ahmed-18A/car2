@@ -2,7 +2,6 @@ package com.example.car2;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,18 +36,17 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
         Car car = cars.get(position);
 
-        // Load first image
         if (car.getImages() != null && !car.getImages().isEmpty() && car.getImages().get(0) != null) {
             Glide.with(context).load(car.getImages().get(0)).into(holder.imgCar);
+        } else {
+            holder.imgCar.setImageDrawable(null);
         }
 
         holder.txtType.setText(car.getType() != null ? car.getType() : "");
         holder.txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
         holder.itemView.setOnClickListener(v -> {
-
             if (context.getClass().getSimpleName().equals("MyCars")) {
-                // تمرير السيارة مع الـ ID الصحيح
                 Intent intent = new Intent(context, Edit.class);
                 intent.putExtra("car", car);
                 intent.putExtra("carId", car.getId());
@@ -59,9 +57,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
                 intent.putExtra("carId", car.getId());
                 context.startActivity(intent);
             }
-
         });
-
     }
 
     @Override

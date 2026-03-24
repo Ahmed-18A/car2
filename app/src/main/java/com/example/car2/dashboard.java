@@ -135,6 +135,8 @@ public class dashboard extends BaseActivity {
             String seats = data.getStringExtra("seats");
             String sunroof = data.getStringExtra("sunroof");
             String disabled = data.getStringExtra("disabled");
+            String model = data.getStringExtra("model");
+            String trim = data.getStringExtra("trim");
 
             float minPrice = data.getFloatExtra("minPrice", 0);
             float maxPrice = data.getFloatExtra("maxPrice", Float.MAX_VALUE);
@@ -145,7 +147,7 @@ public class dashboard extends BaseActivity {
 
             applyFilter(
                     region, carType, gearType, fuelType, color,
-                    doors, seats, sunroof, disabled,
+                    doors, seats, sunroof, disabled, trim, model,
                     minPrice, maxPrice, year, horsePower, engineCapacity
             );
         }
@@ -155,6 +157,7 @@ public class dashboard extends BaseActivity {
     private void applyFilter(String region, String carType, String gearType,
                              String fuelType, String color, String doors,
                              String seats, String sunroof, String disabled,
+                             String trim,String model,
                              float minPrice, float maxPrice, String year,
                              String horsePower, String engineCapacity) {
 
@@ -162,6 +165,13 @@ public class dashboard extends BaseActivity {
 
 
         for (Car car : allCarsList) {
+
+            if (!"Any".equals(trim) && (car.getTrim() == null || !car.getTrim().equals(trim)))
+                continue;
+
+            if (!"Any".equals(model) && (car.getModel() == null || !car.getModel().equals(model)))
+                continue;
+
             // ===== Spinners =====
             if (!"Any".equals(region) && (car.getLocation() == null || !car.getLocation().equals(region)))
                 continue;

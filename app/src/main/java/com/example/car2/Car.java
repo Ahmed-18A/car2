@@ -6,6 +6,10 @@ import java.util.ArrayList;
 public class Car implements Serializable {
 
     private String type;
+    private String model;
+    private String trim;
+    private String fullType;
+
     private String price;
     private String location;
     private String gearType;
@@ -21,20 +25,23 @@ public class Car implements Serializable {
     private String engineCapacity;
     private String id;
 
-    // 🔴 هذا لازم يكون نفس الاسم في Firebase
     private String ownerId;
 
     private ArrayList<String> images;
 
     public Car() { }
 
-    public Car(String type, String price, ArrayList<String> images,
+    public Car(String type, String model, String trim, String fullType,
+               String price, ArrayList<String> images,
                String location, String gearType, String fuelType, String color,
                String doors, String seats, String sunroof, String disabledCar,
                String testDate, String year, String horsePower,
                String engineCapacity, String ownerId) {
 
         this.type = type;
+        this.model = model;
+        this.trim = trim;
+        this.fullType = fullType;
         this.price = price;
         this.images = images;
         this.location = location;
@@ -52,9 +59,13 @@ public class Car implements Serializable {
         this.ownerId = ownerId;
     }
 
-    // ===================== GETTERS =====================
-
     public String getType() { return type; }
+
+    public String getModel() { return model; }
+
+    public String getTrim() { return trim; }
+
+    public String getFullType() { return fullType; }
 
     public String getPrice() { return price; }
 
@@ -90,19 +101,8 @@ public class Car implements Serializable {
 
     public String getDisabledCar() { return disabledCar; }
 
-    public String getOwnerId() {
-        return ownerId;
-    }
+    public String getOwnerId() { return ownerId; }
 
-    // ===================== HELPERS =====================
-
-    public boolean hasSunroof() {
-        return "Yes".equalsIgnoreCase(sunroof);
-    }
-
-    public boolean isDisabledCarBool() {
-        return "Yes".equalsIgnoreCase(disabledCar);
-    }
 
     public ArrayList<String> getDetails() {
         ArrayList<String> list = new ArrayList<>();

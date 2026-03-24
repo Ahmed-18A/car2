@@ -2,7 +2,6 @@ package com.example.car2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
@@ -10,10 +9,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -38,54 +35,66 @@ public class CarDetailsActivity extends BaseActivity {
         txtType = findViewById(R.id.txtType);
         txtPrice = findViewById(R.id.txtPrice);
         tableDetails = findViewById(R.id.tableDetails);
-        btnBack=findViewById(R.id.ImageButton);
+        btnBack = findViewById(R.id.ImageButton);
         btnChat = findViewById(R.id.btnChat);
 
         Car car = (Car) getIntent().getSerializableExtra("car");
+        if (car == null) {
+            finish();
+            return;
+        }
 
-        txtType.setText(car.getType() != null ? car.getType() : "");
+        txtType.setText(car.getFullType() != null ? car.getFullType() : "");
         txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
-        // ===== ViewPager للصور =====
         if (car.getImages() != null && !car.getImages().isEmpty()) {
             ImageSliderAdapter sliderAdapter = new ImageSliderAdapter(this, car.getImages());
             viewPagerImages.setAdapter(sliderAdapter);
         }
 
-        // ===== تعبئة جدول التفاصيل =====
         String[] labels = {
-                "Location", "Gear Type", "Fuel Type", "Color",
-                "Doors", "Seats","Test Date", "Year", "Horsepower",
+                "Type", "Model", "Trim", "Location", "Gear Type", "Fuel Type", "Color",
+                "Doors", "Seats", "Test Date", "Year", "Horsepower",
                 "Engine Capacity", "Sunroof", "Disabled Accessible"
         };
 
-        if (car.getDetails() != null) {
-            for (int i = 0; i < labels.length && i < car.getDetails().size(); i++) {
-                TableRow row = new TableRow(this);
+        ArrayList<String> values = new ArrayList<>();
+        values.add(car.getType() != null ? car.getType() : "");
+        values.add(car.getModel() != null ? car.getModel() : "");
+        values.add(car.getTrim() != null ? car.getTrim() : "");
+        values.add(car.getLocation() != null ? car.getLocation() : "");
+        values.add(car.getGearType() != null ? car.getGearType() : "");
+        values.add(car.getFuelType() != null ? car.getFuelType() : "");
+        values.add(car.getColor() != null ? car.getColor() : "");
+        values.add(car.getDoors() != null ? car.getDoors() : "");
+        values.add(car.getSeats() != null ? car.getSeats() : "");
+        values.add(car.getTestDate() != null ? car.getTestDate() : "");
+        values.add(car.getYear() != null ? car.getYear() : "");
+        values.add(car.getHorsePower() != null ? car.getHorsePower() : "");
+        values.add(car.getEngineCapacity() != null ? car.getEngineCapacity() : "");
+        values.add(car.getSunroof() != null ? car.getSunroof() : "");
+        values.add(car.getDisabledCar() != null ? car.getDisabledCar() : "");
 
-                TextView label = new TextView(this);
-                label.setText(labels[i]);
-                label.setPadding(16,16,16,16);
+        for (int i = 0; i < labels.length; i++) {
+            TableRow row = new TableRow(this);
 
-                TextView value = new TextView(this);
-                value.setText(car.getDetails().get(i));
-                value.setPadding(16,16,16,16);
+            TextView label = new TextView(this);
+            label.setText(labels[i]);
+            label.setPadding(16, 16, 16, 16);
 
-                row.addView(label);
-                row.addView(value);
+            TextView value = new TextView(this);
+            value.setText(values.get(i));
+            value.setPadding(16, 16, 16, 16);
 
-                tableDetails.addView(row);
-            }
+            row.addView(label);
+            row.addView(value);
+
+            tableDetails.addView(row);
         }
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        btnChat.setOnClickListener(v -> {
+        btnBack.setOnClickListener(v -> finish());
 
+        btnChat.setOnClickListener(v -> {
             String myId = FirebaseAuth.getInstance().getUid();
             String carId = getIntent().getStringExtra("carId");
 
@@ -98,8 +107,7 @@ public class CarDetailsActivity extends BaseActivity {
                     .document(carId)
                     .get()
                     .addOnSuccessListener(doc -> {
-
-                        String sellerId = doc.getString("ownerId"); // ✅ من المصدر مباشرة
+                        String sellerId = doc.getString("ownerId");
 
                         if (sellerId == null) {
                             return;
@@ -117,8 +125,5 @@ public class CarDetailsActivity extends BaseActivity {
                             Toast.makeText(this, "Failed to load ownerId", Toast.LENGTH_SHORT).show()
                     );
         });
-
-
     }
-
 }
