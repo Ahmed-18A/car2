@@ -184,7 +184,7 @@ public class Edit extends BaseActivity {
 
             if (img) {
                 if (selectedImages.size() != 5) {
-                    Toast.makeText(this, "لازم تختار 5 صور", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "you must chose 5 images", Toast.LENGTH_SHORT).show();
                     progressOverlay.setVisibility(View.GONE);
                     return;
                 }
@@ -442,7 +442,7 @@ public class Edit extends BaseActivity {
                 int count = data.getClipData().getItemCount();
 
                 if (count != 5) {
-                    Toast.makeText(this, "لازم تختار 5 صور بالضبط", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "you must select 5 images", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -452,11 +452,11 @@ public class Edit extends BaseActivity {
                 }
 
             } else if (data.getData() != null) {
-                Toast.makeText(this, "اختيار صورة واحدة غير مسموح", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "you must select 5 images", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(this, "تم اختيار 5 صور بنجاح ✅", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "5 images selected successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -496,7 +496,7 @@ public class Edit extends BaseActivity {
                     @Override
                     public void onFailure(Call call, java.io.IOException e) {
                         runOnUiThread(() -> {
-                            Toast.makeText(Edit.this, "فشل رفع الصور", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Edit.this, "Error processing image", Toast.LENGTH_SHORT).show();
                             progressOverlay.setVisibility(View.GONE);
                         });
                     }
@@ -511,7 +511,7 @@ public class Edit extends BaseActivity {
 
                         } catch (Exception e) {
                             runOnUiThread(() -> {
-                                Toast.makeText(Edit.this, "خطأ بالرفع", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Edit.this, "Upload error", Toast.LENGTH_SHORT).show();
                                 progressOverlay.setVisibility(View.GONE);
                             });
                         }
@@ -520,7 +520,7 @@ public class Edit extends BaseActivity {
 
             } catch (Exception e) {
                 runOnUiThread(() -> {
-                    Toast.makeText(Edit.this, "خطأ بالصورة", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit.this, "Error processing image", Toast.LENGTH_SHORT).show();
                     progressOverlay.setVisibility(View.GONE);
                 });
             }
