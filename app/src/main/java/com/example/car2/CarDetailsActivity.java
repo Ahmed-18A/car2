@@ -53,27 +53,13 @@ public class CarDetailsActivity extends BaseActivity {
         }
 
         String[] labels = {
-                "Type", "Model", "Trim", "Location", "Gear Type", "Fuel Type", "Color",
-                "Doors", "Seats", "Test Date", "Year", "Horsepower",
-                "Engine Capacity", "Sunroof", "Disabled Accessible"
+                "Model:", "Trim:", "Location:", "Gear Type:", "Fuel Type:", "Color:",
+                "Doors:", "Seats:", "Test Date:", "Year:", "Horsepower:",
+                "Engine Capacity:", "Sunroof:", "Disabled Accessible:"
         };
 
         ArrayList<String> values = new ArrayList<>();
-        values.add(car.getType() != null ? car.getType() : "");
-        values.add(car.getModel() != null ? car.getModel() : "");
-        values.add(car.getTrim() != null ? car.getTrim() : "");
-        values.add(car.getLocation() != null ? car.getLocation() : "");
-        values.add(car.getGearType() != null ? car.getGearType() : "");
-        values.add(car.getFuelType() != null ? car.getFuelType() : "");
-        values.add(car.getColor() != null ? car.getColor() : "");
-        values.add(car.getDoors() != null ? car.getDoors() : "");
-        values.add(car.getSeats() != null ? car.getSeats() : "");
-        values.add(car.getTestDate() != null ? car.getTestDate() : "");
-        values.add(car.getYear() != null ? car.getYear() : "");
-        values.add(car.getHorsePower() != null ? car.getHorsePower() : "");
-        values.add(car.getEngineCapacity() != null ? car.getEngineCapacity() : "");
-        values.add(car.getSunroof() != null ? car.getSunroof() : "");
-        values.add(car.getDisabledCar() != null ? car.getDisabledCar() : "");
+        values.addAll(car.getDetails());
 
         for (int i = 0; i < labels.length; i++) {
             TableRow row = new TableRow(this);

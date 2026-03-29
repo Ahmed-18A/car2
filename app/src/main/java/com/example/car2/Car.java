@@ -106,6 +106,8 @@ public class Car implements Serializable {
 
     public ArrayList<String> getDetails() {
         ArrayList<String> list = new ArrayList<>();
+        list.add(model);
+        list.add(trim);
         list.add(location);
         list.add(gearType);
         list.add(fuelType);

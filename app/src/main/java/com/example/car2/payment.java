@@ -18,7 +18,6 @@ import java.util.Calendar;
 public class payment extends BaseActivity {
 
     public static final String EXTRA_PRICE = "extra_price";
-    public static final String EXTRA_FEE = "extra_fee";
 
     private EditText etCardNumber, etMM, etYY, etCVC;
     private Spinner spCountry;
@@ -60,10 +59,7 @@ public class payment extends BaseActivity {
 
         btnPay.setOnClickListener(v -> {
             if (!isVisaInfoValid()) return;
-
-            Intent data = new Intent();
-            data.putExtra(EXTRA_FEE, fee);
-            setResult(RESULT_OK, data);
+            setResult(RESULT_OK);
             finish();
         });
 
