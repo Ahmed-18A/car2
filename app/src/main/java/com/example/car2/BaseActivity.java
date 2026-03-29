@@ -49,7 +49,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private static final String REMINDER_ACTION = "com.example.car2.REMINDER_72_HOURS";
     private static final int REMINDER_REQUEST_CODE = 3333;
-    private static final long REMINDER_DELAY_MS = 1L * 60L * 1000L; // 72 hours
+    private static final long REMINDER_DELAY_MS = 72L* 60L * 60L * 1000L; // 72 hours
 
     private static ListenerRegistration globalChatsListener = null;
 
