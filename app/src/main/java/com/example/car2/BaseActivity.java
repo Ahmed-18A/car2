@@ -1,12 +1,19 @@
 package com.example.car2;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -28,13 +35,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -45,6 +45,11 @@ public class BaseActivity extends AppCompatActivity {
 
     private static final String PREFS = "car2_prefs";
     private static final String KEY_LAST_NOTIF_PREFIX = "last_notif_";
+    private static final String KEY_LAST_APP_OPEN = "last_app_open";
+
+    private static final String REMINDER_ACTION = "com.example.car2.REMINDER_72_HOURS";
+    private static final int REMINDER_REQUEST_CODE = 3333;
+    private static final long REMINDER_DELAY_MS = 1L * 60L * 1000L; // 72 hours
 
     private static ListenerRegistration globalChatsListener = null;
 
@@ -67,8 +72,60 @@ public class BaseActivity extends AppCompatActivity {
 
         createNotifChannel();
         requestNotifPermissionIfNeeded();
+
+        // ✅ كل مرة المستخدم يفتح أي شاشة من التطبيق:
+        // خزّن آخر استخدام وجدول تذكير جديد بعد 72 ساعة
+        updateLastOpenAndScheduleReminder();
+
         startGlobalChatListener();
     }
+
+    // ========================= 72 HOURS REMINDER =========================
+
+    private void updateLastOpenAndScheduleReminder() {
+        SharedPreferences sp = getSharedPreferences(PREFS, MODE_PRIVATE);
+        sp.edit().putLong(KEY_LAST_APP_OPEN, System.currentTimeMillis()).apply();
+        scheduleReminder72HoursLater();
+    }
+
+    private void scheduleReminder72HoursLater() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        Intent intent = new Intent(this, ReminderReceiver.class);
+        intent.setAction(REMINDER_ACTION);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                REMINDER_REQUEST_CODE,
+                intent,
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                        : PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        // إلغاء القديم ثم جدولة الجديد
+        alarmManager.cancel(pendingIntent);
+
+        long triggerAtMillis = System.currentTimeMillis() + REMINDER_DELAY_MS;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerAtMillis,
+                    pendingIntent
+            );
+        } else {
+            alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerAtMillis,
+                    pendingIntent
+            );
+        }
+    }
+
+    // ========================= CHAT NOTIFICATIONS =========================
+
     private void startGlobalChatListener() {
         String myId = FirebaseAuth.getInstance().getUid();
         if (myId == null) return;
@@ -96,7 +153,8 @@ public class BaseActivity extends AppCompatActivity {
                         if (lastSenderId.equals(myId)) continue;
 
                         // ✅ إذا أنا داخل نفس الشات -> لا إشعار
-                        if (ChatActivity.OPEN_CHAT_ID != null && ChatActivity.OPEN_CHAT_ID.equals(chatId)) continue;
+                        if (ChatActivity.OPEN_CHAT_ID != null &&
+                                ChatActivity.OPEN_CHAT_ID.equals(chatId)) continue;
 
                         Timestamp myLastRead = null;
                         Object lrObj = doc.get("lastRead");
@@ -107,22 +165,21 @@ public class BaseActivity extends AppCompatActivity {
                         }
 
                         // ✅ إذا مقروء -> لا إشعار
-                        if (myLastRead != null && lastMessageTime.compareTo(myLastRead) <= 0) continue;
+                        if (myLastRead != null &&
+                                lastMessageTime.compareTo(myLastRead) <= 0) continue;
 
-                        // ✅ منع تكرار نفس الإشعار (حتى لو فتحت/سكرت شاشات)
+                        // ✅ منع تكرار نفس الإشعار
                         long msgTimeMs = lastMessageTime.toDate().getTime();
                         long lastShown = getSharedPreferences(PREFS, MODE_PRIVATE)
                                 .getLong(KEY_LAST_NOTIF_PREFIX + chatId, 0L);
 
                         if (msgTimeMs <= lastShown) continue;
 
-                        // خزّن قبل العرض
                         getSharedPreferences(PREFS, MODE_PRIVATE)
                                 .edit()
                                 .putLong(KEY_LAST_NOTIF_PREFIX + chatId, msgTimeMs)
                                 .apply();
 
-                        // ✅ احسب otherId عشان نفتح ChatActivity صح
                         ArrayList<String> users = (ArrayList<String>) doc.get("users");
                         String otherId = null;
                         if (users != null) {
@@ -145,7 +202,7 @@ public class BaseActivity extends AppCompatActivity {
                                 .document(otherId)
                                 .get()
                                 .addOnSuccessListener(uDoc -> {
-                                    final String senderName=uDoc.getString("name");
+                                    final String senderName = uDoc.getString("name");
                                     showChatNotification(chatId, finalOtherId, senderName, body);
                                 });
                     }
@@ -175,14 +232,16 @@ public class BaseActivity extends AppCompatActivity {
 
         NotificationCompat.Builder b = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(title)
+                .setContentTitle(title != null ? title : "New message")
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setContentIntent(pi)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(7000 + chatId.hashCode(), b.build());
+        if (nm != null) {
+            nm.notify(7000 + chatId.hashCode(), b.build());
+        }
     }
 
     private void createNotifChannel() {
@@ -193,7 +252,9 @@ public class BaseActivity extends AppCompatActivity {
                     NotificationManager.IMPORTANCE_HIGH
             );
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            nm.createNotificationChannel(ch);
+            if (nm != null) {
+                nm.createNotificationChannel(ch);
+            }
         }
     }
 
@@ -211,6 +272,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     // ================== Your System Bars Code (unchanged) ==================
+
     protected void applySystemBars() {
 
         Window window = getWindow();
@@ -230,7 +292,9 @@ public class BaseActivity extends AppCompatActivity {
 
         controller.hide(WindowInsetsCompat.Type.navigationBars());
         controller.show(WindowInsetsCompat.Type.statusBars());
-        controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        controller.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
 
         controller.setAppearanceLightStatusBars(true);
 
@@ -279,12 +343,10 @@ public class BaseActivity extends AppCompatActivity {
                             caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
                             caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
 
-            // NOTE: هذا يعني “في اتصال شبكة”، مش ضمان 100% أنه في إنترنت فعلي
             return hasTransport;
         } else {
             NetworkInfo info = cm.getActiveNetworkInfo();
             return info != null && info.isConnected();
         }
     }
-
 }
