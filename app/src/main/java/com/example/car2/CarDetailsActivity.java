@@ -44,7 +44,7 @@ public class CarDetailsActivity extends BaseActivity {
             return;
         }
 
-        txtType.setText(car.getType() != null ? car.getType() : "");
+        txtType.setText(car.getType() != null ? car.getFullType(): "");
         txtPrice.setText(car.getPrice() != null ? car.getPrice() : "");
 
         if (car.getImages() != null && !car.getImages().isEmpty()) {

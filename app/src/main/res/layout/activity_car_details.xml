@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
-    android:orientation="vertical"
-    android:background="#dbf2ff"
-    android:padding="8dp">
-
-    <ImageButton
-        android:id="@+id/ImageButton"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/leftarrow"
-        android:background="@android:color/transparent" />
-
-    <!-- Image Slider -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerImages"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="16dp"/>
+    android:background="#dbf2ff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layoutDirection="ltr"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <TextView
-            android:id="@+id/txtType"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Car Type"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:paddingTop="8dp"/>
+        <ImageButton
+            android:id="@+id/ImageButton"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/leftarrow"
+            android:background="@android:color/transparent" />
+
+        <!-- Image Slider -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerImages"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginBottom="16dp"/>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:textSize="20sp"
-                android:id="@+id/txtPrice"
-                android:textColor="#2E7D32"
+                android:id="@+id/txtType"
                 android:layout_width="0dp"
+                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$"
+                android:text="Car Type"
                 android:textSize="20sp"
-                android:textColor="#2E7D32"
-                android:paddingTop="4dp"/>
+                android:textStyle="bold"
+                android:paddingTop="8dp"/>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="0.3">
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#2E7D32"
+                    android:textSize="20sp"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textSize="20sp"
+                    android:textColor="#2E7D32"/>
+            </LinearLayout>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:backgroundTint="#a9f2fd"
+            android:layout_marginTop="10dp"/>
+
+        <TableLayout
+            android:id="@+id/tableDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"/>
+
     </LinearLayout>
-
-    <Button
-        android:backgroundTint="#a9f2fd"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnChat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Contact" />
-
-
-    <TableLayout
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/tableDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1"/>
-
-
-</LinearLayout>
+</ScrollView>
