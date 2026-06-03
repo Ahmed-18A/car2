@@ -1,0 +1,179 @@
+@startuml
+
+class ChatsAdapter {
+- Context context
+- ArrayList<ChatItem> list
++ VH onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(VH,int)
++ int getItemCount()
+}
+
+
+class ChatsAdapter$VH {
+~ ImageView imgUser
+~ TextView txtName
+}
+
+class ExampleInstrumentedTest {
++ void useAppContext()
+}
+
+class Car {
+- String type
+- String model
+- String trim
+- String fullType
+- String price
+- String location
+- String gearType
+- String fuelType
+- String color
+- String doors
+- String seats
+- String sunroof
+- String disabledCar
+- String testDate
+- String year
+- String horsePower
+- String engineCapacity
+- String id
+- String ownerId
+- ArrayList<String> images
++ String getType()
++ String getModel()
++ String getTrim()
++ String getFullType()
++ String getPrice()
++ ArrayList<String> getImages()
++ String getId()
++ void setId(String)
++ String getLocation()
++ String getGearType()
++ String getFuelType()
++ String getColor()
++ String getDoors()
++ String getSeats()
++ String getTestDate()
++ String getYear()
++ String getHorsePower()
++ String getEngineCapacity()
++ String getSunroof()
++ String getDisabledCar()
++ String getOwnerId()
++ ArrayList<String> getDetails()
+}
+
+
+class BaseActivity {
+- {static} String CHANNEL_ID
+- {static} int REQ_NOTIF
+- {static} String PREFS
+- {static} String KEY_LAST_NOTIF_PREFIX
+- {static} String KEY_LAST_APP_OPEN
+- {static} String REMINDER_ACTION
+- {static} int REMINDER_REQUEST_CODE
+- {static} long REMINDER_DELAY_MS
+- {static} ListenerRegistration globalChatsListener
+# void onCreate(Bundle)
+# void onStart()
+- void updateLastOpenAndScheduleReminder()
+- void scheduleReminder72HoursLater()
+- void startGlobalChatListener()
+- void stopGlobalChatListener()
+- void showChatNotification(String,String,String,String)
+- void createNotifChannel()
+- void requestNotifPermissionIfNeeded()
+# void applySystemBars()
++ void onWindowFocusChanged(boolean)
+- boolean isInternetAvailable()
+}
+
+
+class Utils {
++ {static} Bitmap rotateImageIfRequired(Context,Bitmap,Uri)
+- {static} Bitmap rotateBitmap(Bitmap,float)
++ {static} String parseImgBBUrl(String)
++ {static} Bitmap drawableToBitmap(Context,int)
+}
+
+class CarAdapter {
+- Context context
+- ArrayList<Car> cars
++ CarViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(CarViewHolder,int)
++ int getItemCount()
+}
+
+
+class CarAdapter$CarViewHolder {
+~ ImageView imgCar
+~ TextView txtType
+}
+
+class ReminderReceiver {
+- {static} String REMINDER_CHANNEL_ID
+- {static} String REMINDER_CHANNEL_NAME
++ void onReceive(Context,Intent)
+- void createReminderChannel(Context)
+}
+
+class NoInternet {
+# void onCreate(Bundle)
+- boolean isNetworkAvailable()
+}
+
+class ChatItem {
++ String chatId
++ String otherUserId
++ String otherUserName
++ String otherUserImage
+}
+
+
+class ExampleUnitTest {
++ void addition_isCorrect()
+}
+
+class ImageSliderAdapter {
+- Context context
+- List<String> images
++ ImageViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ImageViewHolder,int)
++ int getItemCount()
+}
+
+
+class ImageSliderAdapter$ImageViewHolder {
+~ ImageView imageView
+}
+
+class Message {
+- String senderId
+- String text
+- Timestamp timestamp
++ String getSenderId()
++ String getText()
++ Timestamp getTimestamp()
+}
+
+
+
+class MessagesAdapter {
+- ArrayList<Message> list
+- String myId
++ VH onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(VH,int)
++ int getItemCount()
+}
+
+
+
+Adapter <|-- ChatsAdapter
+Serializable <|..Car
+AppCompatActivity <|-- BaseActivity
+Adapter <|-- CarAdapter
+BroadcastReceiver <|-- ReminderReceiver
+AppCompatActivity <|-- NoInternet
+Adapter <|-- ImageSliderAdapter
+Adapter <|-- MessagesAdapter
+@enduml

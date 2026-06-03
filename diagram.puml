@@ -1,0 +1,366 @@
+@startuml car2_project_class_diagram_with_operations
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+
+package "com.example.car2" {
+
+class BaseActivity {
+  # onCreate(savedInstanceState : Bundle) : void
+  # onStart() : void
+  - updateLastOpenAndScheduleReminder() : void
+  - scheduleReminder72HoursLater() : void
+  - startGlobalChatListener() : void
+  - stopGlobalChatListener() : void
+  - showChatNotification(chatId : String, otherUserId : String, title : String, text : String) : void
+  - createNotifChannel() : void
+  - requestNotifPermissionIfNeeded() : void
+  # applySystemBars() : void
+  + onWindowFocusChanged(hasFocus : boolean) : void
+  - isInternetAvailable() : boolean
+}
+
+class NoInternet {
+  # onCreate(savedInstanceState : Bundle) : void
+  - isNetworkAvailable() : boolean
+}
+
+class ReminderReceiver {
+  + onReceive(context : Context, intent : Intent) : void
+  - createReminderChannel(context : Context) : void
+}
+
+class Utils <<utility>> {
+  + rotateImageIfRequired(context : Context, img : Bitmap, selectedImage : Uri) : Bitmap
+  - rotateBitmap(bitmap : Bitmap, degrees : float) : Bitmap
+  + parseImgBBUrl(json : String) : String
+  + drawableToBitmap(context : Context, drawableRes : int) : Bitmap
+}
+
+class Car {
+  - type : String
+  - model : String
+  - trim : String
+  - fullType : String
+  - price : String
+  - location : String
+  - gearType : String
+  - fuelType : String
+  - color : String
+  - doors : String
+  - seats : String
+  - sunroof : String
+  - disabledCar : String
+  - testDate : String
+  - year : String
+  - horsePower : String
+  - engineCapacity : String
+  - id : String
+  - ownerId : String
+  - images : ArrayList<String>
+  ~ Car()
+  ~ Car(type : String, model : String, trim : String, fullType : String,
+   price : String, images : ArrayList<String>, location : String, gearType : String,
+    fuelType : String, color : String, doors : String, seats : String, sunroof : String,
+     disabledCar : String, testDate : String, year : String, horsePower : String,
+      engineCapacity : String, ownerId : String)
+  + getType() : String
+  + getModel() : String
+  + getTrim() : String
+  + getFullType() : String
+  + getPrice() : String
+  + getImages() : ArrayList<String>
+  + getId() : String
+  + setId(id : String) : void
+  + getLocation() : String
+  + getGearType() : String
+  + getFuelType() : String
+  + getColor() : String
+  + getDoors() : String
+  + getSeats() : String
+  + getTestDate() : String
+  + getYear() : String
+  + getHorsePower() : String
+  + getEngineCapacity() : String
+  + getOwnerId() : String
+  + getUserId() : String
+  + getSunroof() : String
+  + getDisabledCar() : String
+}
+
+class Message {
+  - senderId : String
+  - text : String
+  - timestamp : Timestamp
+  ~ Message()
+  ~ Message(senderId : String, text : String, timestamp : Timestamp)
+  + getSenderId() : String
+  + getText() : String
+  + getTimestamp() : Timestamp
+}
+
+class ChatItem {
+  + chatId : String
+  + otherUserId : String
+  + otherUserName : String
+  + otherUserImage : String
+  + lastMessage : String
+  + lastMessageTime : long
+  ~ ChatItem()
+}
+
+class CarAdapter {
+  - context : Context
+  - cars : ArrayList<Car>
+  ~ CarAdapter(context : Context, cars : ArrayList<Car>)
+  + onCreateViewHolder(parent : ViewGroup, viewType : int) : CarViewHolder
+  + onBindViewHolder(holder : CarViewHolder, position : int) : void
+  + getItemCount() : int
+}
+
+class ChatsAdapter {
+  - context : Context
+  - list : ArrayList<ChatItem>
+  ~ ChatsAdapter(context : Context, list : ArrayList<ChatItem>)
+  + onCreateViewHolder(parent : ViewGroup, viewType : int) : VH
+  + onBindViewHolder(h : VH, position : int) : void
+  + getItemCount() : int
+}
+
+class MessagesAdapter {
+  - list : ArrayList<Message>
+  - myId : String
+  ~ MessagesAdapter(list : ArrayList<Message>, myId : String)
+  + onCreateViewHolder(parent : ViewGroup, viewType : int) : VH
+  + onBindViewHolder(h : VH, position : int) : void
+  + getItemCount() : int
+}
+
+class ImageSliderAdapter {
+  - context : Context
+  - images : List<String>
+  ~ ImageSliderAdapter(context : Context, images : List<String>)
+  + onCreateViewHolder(parent : ViewGroup, viewType : int) : ImageViewHolder
+  + onBindViewHolder(holder : ImageViewHolder, position : int) : void
+  + getItemCount() : int
+}
+
+class dashboard {
+  - rvCars : RecyclerView
+  - carAdapter : CarAdapter
+  - allCarsList : ArrayList<Car>
+  - shownCarsList : ArrayList<Car>
+  - db : FirebaseFirestore
+  # onCreate(savedInstanceState : Bundle) : void
+  - loadCarsFromFirebase() : void
+  # onResume() : void
+  # onActivityResult(requestCode : int, resultCode : int, data : Intent) : void
+  - applyFilter(region : String, carType : String, gearType : String,
+   fuelType : String, color : String, doors : String, seats : String,
+    sunroof : String, disabled : String, trim : String, model : String,
+     minPrice : float, maxPrice : float, year : String, horsePower : String,
+      engineCapacity : String) : void
+}
+
+class MyCars {
+  - rvMyCars : RecyclerView
+  - carAdapter : CarAdapter
+  - myCars : ArrayList<Car>
+  - db : FirebaseFirestore
+  - currentUser : FirebaseUser
+  # onCreate(savedInstanceState : Bundle) : void
+  # onResume() : void
+  - loadMyCars() : void
+}
+
+class addCar {
+  - allImages : ArrayList<Uri>
+  - auth : FirebaseAuth
+  - db : FirebaseFirestore
+  # onCreate(savedInstanceState : Bundle) : void
+  - loadCarsFromJson() : void
+  - showMakeDialog() : void
+  - showModelDialog(make : CarMake) : void
+  - showTrimDialog(model : CarModel) : void
+  - showSearchableDialog(title : String, originalItems : ArrayList<String>, listener : OnValuePicked) : void
+  + beforeTextChanged(s : CharSequence, start : int, count : int, after : int) : void
+  + onTextChanged(s : CharSequence, start : int, before : int, count : int) : void
+  + afterTextChanged(s : Editable) : void
+  - getMakeByName(name : String) : CarMake
+  - getModelByName(make : CarMake, name : String) : CarModel
+  - updateSelectedViews() : void
+  - dpToPx(dp : int) : int
+  - checkPermissionAndOpenGallery() : void
+  + onRequestPermissionsResult(requestCode : int, permissions : String[], grantResults : int[]) : void
+  - openGallery() : void
+  - uploadAllImagesAndSaveCar() : void
+  - uploadImageAsync(index : int, uploadedUrls : ArrayList<String>) : void
+  - saveCarToFirebase(urls : ArrayList<String>) : void
+  # onActivityResult(requestCode : int, resultCode : int, data : Intent) : void
+  # onResume() : void
+}
+
+class Edit {
+  - db : FirebaseFirestore
+  - auth : FirebaseAuth
+  - uploadedImageUrls : ArrayList<String>
+  - selectedImages : ArrayList<Uri>
+  # onCreate(savedInstanceState : Bundle) : void
+  - loadCarsFromJson() : void
+  - showMakeDialog() : void
+  - showModelDialog(make : CarMake) : void
+  - showTrimDialog(model : CarModel) : void
+  - showSearchableDialog(title : String, originalItems : ArrayList<String>, listener : OnValuePicked) : void
+  + beforeTextChanged(s : CharSequence, start : int, count : int, after : int) : void
+  + onTextChanged(s : CharSequence, start : int, before : int, count : int) : void
+  + afterTextChanged(s : Editable) : void
+  - getMakeByName(name : String) : CarMake
+  - getModelByName(make : CarMake, name : String) : CarModel
+  - updateSelectedViews() : void
+  - checkPermissionAndOpenGallery() : void
+  + onRequestPermissionsResult(requestCode : int, permissions : String[], grantResults : int[]) : void
+  - openGallery() : void
+  - uploadImageRecursive(index : int, oldCar : Car) : void
+  - saveCar(oldCar : Car, imageUrls : ArrayList<String>) : void
+  # onActivityResult(requestCode : int, resultCode : int, data : Intent) : void
+}
+
+class SearchActivity {
+  # onCreate(savedInstanceState : Bundle) : void
+  - applyFilter() : void
+  - loadCarsFromJson() : void
+  - showMakeDialog() : void
+  - showModelDialog(make : CarMake) : void
+  - showTrimDialog(model : CarModel) : void
+  - showSearchableDialog(title : String, originalItems : ArrayList<String>, listener : OnValuePicked) : void
+  + beforeTextChanged(s : CharSequence, start : int, count : int, after : int) : void
+  + onTextChanged(s : CharSequence, start : int, before : int, count : int) : void
+  + afterTextChanged(s : Editable) : void
+  - getMakeByName(name : String) : CarMake
+  - getModelByName(make : CarMake, name : String) : CarModel
+  - updateSelectedViews() : void
+}
+
+class payment {
+  # onCreate(savedInstanceState : Bundle) : void
+  + beforeTextChanged(s : CharSequence, start : int, count : int, after : int) : void
+  + onTextChanged(s : CharSequence, start : int, before : int, count : int) : void
+  + afterTextChanged(s : Editable) : void
+  - isVisaInfoValid() : boolean
+}
+
+class profile {
+  # onCreate(savedInstanceState : Bundle) : void
+  - checkPermissionAndOpenGallery() : void
+  - checkPermissionAndOpenCamera() : void
+  + onRequestPermissionsResult(requestCode : int, permissions : String[], grantResults : int[]) : void
+  # onActivityResult(requestCode : int, resultCode : int, data : Intent) : void
+  - showImagePickerDialog() : void
+  - uploadDrawableBitmapToImgBB(bitmap : Bitmap) : void
+  - openGallery() : void
+  - openCamera() : void
+  - uploadToImgBB(imageUri : Uri) : void
+  - saveImageUrl(url : String) : void
+  - ensureUserDocumentExists() : void
+  - loadUserData(uid : String) : void
+  - showEditDialog() : void
+}
+
+class log_in {
+  # onCreate(savedInstanceState : Bundle) : void
+}
+
+class sign_up {
+  # onCreate(savedInstanceState : Bundle) : void
+  - hideKeyboard() : void
+}
+
+class CarDetailsActivity {
+  # onCreate(savedInstanceState : Bundle) : void
+}
+
+class ChatsActivity {
+  - chatsMap : HashMap<String, ChatItem>
+  # onCreate(savedInstanceState : Bundle) : void
+  # onStart() : void
+  - startChatsListener() : void
+  - loadUserDataIntoMap(chatId : String, otherUserId : String) : void
+  - refreshChatsListFromMap() : void
+  # onStop() : void
+}
+
+class ChatActivity {
+  - db : FirebaseFirestore
+  - chatDocRef : DocumentReference
+  - myId : String
+  - sellerId : String
+  - chatId : String
+  - messagesAdapter : MessagesAdapter
+  - messages : ArrayList<Message>
+  - messageIds : ArrayList<String>
+  # onCreate(savedInstanceState : Bundle) : void
+  # onResume() : void
+  # onPause() : void
+  - makeChatId(a : String, b : String) : String
+  - startMessagesListenerRealtime() : void
+  - markChatAsRead() : void
+  - sendMessage() : void
+  - sendMyLocation() : void
+  - sendLocationMessage(lat : double, lng : double) : void
+  # onActivityResult(requestCode : int, resultCode : int, data : Intent) : void
+  + onRequestPermissionsResult(requestCode : int, permissions : String[], grantResults : int[]) : void
+  # onStop() : void
+  - loadHeaderUser() : void
+  - openDialerWithOtherUserPhone() : void
+  - showSendLocationDialog() : void
+}
+}
+
+BaseActivity --|> AppCompatActivity
+NoInternet --|> AppCompatActivity
+ReminderReceiver --|> BroadcastReceiver
+
+addCar --|> BaseActivity
+CarDetailsActivity --|> BaseActivity
+ChatActivity --|> BaseActivity
+ChatsActivity --|> BaseActivity
+dashboard --|> BaseActivity
+Edit --|> BaseActivity
+log_in --|> BaseActivity
+MyCars --|> BaseActivity
+payment --|> BaseActivity
+profile --|> BaseActivity
+SearchActivity --|> BaseActivity
+sign_up --|> BaseActivity
+
+Car ..|> Serializable
+
+CarAdapter *-- "0..*" Car
+MessagesAdapter *-- "0..*" Message
+ChatsAdapter *-- "0..*" ChatItem
+ImageSliderAdapter *-- "0..*" String
+
+dashboard --> CarAdapter
+dashboard --> Car
+MyCars --> CarAdapter
+MyCars --> Car
+addCar --> Car
+Edit --> Car
+SearchActivity --> Car
+CarDetailsActivity --> Car
+CarDetailsActivity --> ImageSliderAdapter
+ChatActivity --> MessagesAdapter
+ChatActivity --> Message
+ChatsActivity --> ChatsAdapter
+ChatsActivity --> ChatItem
+CarAdapter --> Car
+MessagesAdapter --> Message
+ChatsAdapter --> ChatItem
+profile ..> Utils
+addCar ..> Utils
+Edit ..> Utils
+ReminderReceiver ..> BaseActivity : reminder for
+
+@enduml
